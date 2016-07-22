@@ -20,14 +20,18 @@ module MoneyMover
       private
 
       def response
+        return @response if @response
+
         @errors = {}
 
         begin
-          @response ||= perform_request
+          @response = perform_request
         rescue => e
           add_errors JSON.parse e.response.body, symbolize_names: true
           @response = e.response
         end
+
+        @response
       end
 
       def add_errors(errors)
@@ -76,16 +80,16 @@ module MoneyMover
         @errors = {}
       end
 
-      def success?
-        response.code == 201
-      end
+      #def success?
+        #response.code == 201
+      #end
 
       def resource_location
-        @resource_location ||= response.headers[:location]
+        @resource_location ||= response.headers[:location] if response.headers[:location]
       end
 
       def resource_id
-        @resource_id ||= resource_location.split('/').last
+        @resource_id ||= resource_location.split('/').last if resource_location
       end
 
       private

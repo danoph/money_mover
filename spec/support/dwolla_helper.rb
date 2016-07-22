@@ -44,6 +44,18 @@ class DwollaHelper
     resource_created_response customer_funding_source_endpoint(customer_token, funding_source_token)
   end
 
+  def funding_sources_endpoint
+    "funding-sources"
+  end
+
+  def funding_source_endpoint(funding_source_token)
+    [ funding_sources_endpoint, funding_source_token ].join '/'
+  end
+
+  def funding_source_microdeposits_endpoint(funding_source_token)
+    [ funding_source_endpoint(funding_source_token), "micro-deposits" ].join '/'
+  end
+
   def resource_created_response(resource_location)
     {
       status: 201,
@@ -72,6 +84,10 @@ class DwollaHelper
 
   def stub_find_customer_request(customer_token, response)
     stub_get_request customer_endpoint(customer_token), response
+  end
+
+  def stub_funding_source_microdeposits_request(funding_source_token, create_params, response)
+    stub_post_request funding_source_microdeposits_endpoint(funding_source_token), create_params, response
   end
 
   def stub_get_request(url, response)
