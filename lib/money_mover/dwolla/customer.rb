@@ -1,16 +1,19 @@
 module MoneyMover
   module Dwolla
     class Customer < ApiResource
-      attr_accessor :id, :firstName, :lastName, :email, :ipAddress
+      attr_accessor :id, :firstName, :lastName, :email, :ipAddress, :type, :status
 
-      def initialize(attrs)
-        @id = attrs[:id]
+      def initialize(attrs={})
+        @attrs = attrs
         @resource_location = attrs.dig(:_links, :self, :href)
 
-        @firstName = attrs[:firstName]
-        @lastName = attrs[:lastName]
-        @email = attrs[:email]
-        @ipAddress = attrs[:ipAddress]
+        super id: attrs[:id],
+          firstName: attrs[:firstName],
+          lastName: attrs[:lastName],
+          email: attrs[:email],
+          ipAddress: attrs[:ipAddress],
+          type: attrs[:type],
+          status: attrs[:status]
       end
 
       def self.find(id)
