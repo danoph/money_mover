@@ -26,7 +26,7 @@ module MoneyMover
           parsed_json_response = JSON.parse response.body, symbolize_names: true
           new parsed_json_response
         else
-          raise 'Customer not Found'
+          raise 'Customer Not Found'
         end
       end
     end
