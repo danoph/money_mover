@@ -6,7 +6,7 @@ describe MoneyMover::Dwolla::FundingSource do
   describe '#save' do
     context 'valid attributes' do
       let(:name) { double 'name' }
-      let(:type) { double 'type' }
+      let(:type) { 'checking' }
       let(:routingNumber) { double 'routing number' }
       let(:accountNumber) { double 'account number' }
 
@@ -67,7 +67,7 @@ describe MoneyMover::Dwolla::FundingSource do
         expect(subject.save).to eq(false)
 
         expect(subject.errors[:name]).to eq(["can't be blank"])
-        expect(subject.errors[:type]).to eq(["can't be blank"])
+        expect(subject.errors[:type]).to eq(["can't be blank", 'is not included in the list'])
         expect(subject.errors[:routingNumber]).to eq(["can't be blank"])
         expect(subject.errors[:accountNumber]).to eq(["can't be blank"])
       end

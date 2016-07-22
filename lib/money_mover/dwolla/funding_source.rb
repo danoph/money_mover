@@ -9,6 +9,8 @@ module MoneyMover
 
       validates_presence_of :name, :type, :routingNumber, :accountNumber
 
+      validates_inclusion_of :type, in: [ 'checking', 'savings' ]
+
       def save
         return false unless valid?
 
