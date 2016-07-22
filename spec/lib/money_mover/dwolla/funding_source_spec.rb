@@ -14,12 +14,9 @@ describe MoneyMover::Dwolla::FundingSource do
     account_number: account_number
   }}
 
-  let(:client) { double 'client' }
-
-  subject { described_class.new(attrs, client) }
+  subject { described_class.new(attrs) }
 
   let(:response) { double 'response', code: response_code, headers: response_headers }
-  let(:response_code) { 201 }
   let(:response_headers) { { location: resource_location } }
 
   let(:resource_id) { 'some-resource-id' }
@@ -36,14 +33,37 @@ describe MoneyMover::Dwolla::FundingSource do
 
   let(:create_url) { [ 'customers', customer_token, 'funding-sources' ].join '/' }
 
+  let(:client) { double 'client' }
+
+  before do
+    allow(MoneyMover::Dwolla::ApiClient).to receive(:new) { client }
+  end
+
   describe '#save' do
-    it 'creates new customer in dwolla' do
-      expect(client).to receive(:post).with(create_url, request_params) { response }
+    context 'success' do
+      let(:response_code) { 201 }
 
-      expect(subject.save).to eq(true)
+      it 'adds id and resource location, returns true' do
+        expect(client).to receive(:post).with(create_url, request_params) { response }
 
-      expect(subject.id).to eq(resource_id)
-      expect(subject.resource_location).to eq(resource_location)
+        expect(subject.save).to eq(true)
+
+        expect(subject.id).to eq(resource_id)
+        expect(subject.resource_location).to eq(resource_location)
+      end
+    end
+
+    context 'fail' do
+      let(:response_code) { 400 }
+
+      it 'returns false' do
+        expect(client).to receive(:post).with(create_url, request_params) { response }
+
+        expect(subject.save).to eq(false)
+
+        expect(subject.id).to be_nil
+        expect(subject.resource_location).to be_nil
+      end
     end
   end
 end

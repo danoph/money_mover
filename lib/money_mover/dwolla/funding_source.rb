@@ -18,12 +18,11 @@ module MoneyMover
       end
 
       def save
-        response = @client.post customer_funding_sources_endpoint, request_params
+        response = ApiPostRequest.new customer_funding_sources_endpoint, request_params
 
-        case response.code
-        when 201
-          @resource_location = response.headers[:location]
-          @id = @resource_location.split('/').last
+        if response.success?
+          @resource_location = response.resource_location
+          @id = response.resource_id
           true
         else
           false
