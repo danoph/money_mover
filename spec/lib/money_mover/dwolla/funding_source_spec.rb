@@ -14,6 +14,8 @@ describe MoneyMover::Dwolla::FundingSource do
     account_number: account_number
   }}
 
+  let(:client) { double 'client' }
+
   subject { described_class.new(attrs) }
 
   let(:response) { double 'response', code: response_code, headers: response_headers }
