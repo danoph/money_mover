@@ -1,5 +1,5 @@
-class Hola
-  def self.hi
-    puts "Hello world!"
-  end
+# Version
+require 'money_mover/version'
+
+class MoneyMover
 end
