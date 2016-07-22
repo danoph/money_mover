@@ -16,7 +16,7 @@ describe MoneyMover::Dwolla::FundingSource do
 
   let(:client) { double 'client' }
 
-  subject { described_class.new(attrs) }
+  subject { described_class.new(attrs, client) }
 
   let(:response) { double 'response', code: response_code, headers: response_headers }
   let(:response_code) { 201 }
@@ -36,17 +36,9 @@ describe MoneyMover::Dwolla::FundingSource do
     accountNumber: account_number
   }}
 
-  let(:request_headers) {{
-    content_type: :json,
-    accept: 'application/vnd.dwolla.v1.hal+json',
-    Authorization: "Bearer #{access_token}"
-  }}
-
-  let(:access_token) { 'X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak' }
-
   describe '#save' do
     it 'creates new customer in dwolla' do
-      expect(RestClient).to receive(:post).with(customer_funding_sources_endpoint, request_params.to_json, request_headers) { response }
+      expect(client).to receive(:post).with(customer_funding_sources_endpoint, request_params) { response }
 
       expect(subject.save).to eq(true)
 
