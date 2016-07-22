@@ -18,13 +18,10 @@ module MoneyMover
       end
 
       def self.find(id)
-        client = ApiClient.new
-        response = client.get [ "customers", id ].join '/'
+        request = ApiRequest.new [ "customers", id ].join '/'
 
-        case response.code
-        when 200
-          parsed_json_response = JSON.parse response.body, symbolize_names: true
-          new parsed_json_response
+        if request.success?
+          new request.parsed_response
         else
           raise 'Customer Not Found'
         end
