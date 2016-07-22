@@ -15,49 +15,24 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
 
   subject { described_class.new(attrs) }
 
-  let(:dwolla_endpoint) { "https://api-uat.dwolla.com" }
-
   let(:customer_token) { '9481924a-6795-4e7a-b436-a7a48a4141ca' }
 
-  let(:create_customer_endpoint) { "#{dwolla_endpoint}/customers" }
-
-  let(:customer_created_response) {{
-    status: 201,
-    body: "",
-    headers: {
-      location: customer_resource_location
-    }
-  }}
-
-  let(:customer_resource_location) { "#{dwolla_endpoint}/customers/#{customer_token}" }
-
-  let(:dwolla_create_customer_params) {{
+  let(:create_customer_params) {{
     firstName: firstName,
     lastName: lastName,
     email: email,
     ipAddress: ipAddress
   }}
 
-  let(:access_token) { "X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak" }
-
-  let(:dwolla_request_headers) {{
-    'Accept'=>'application/vnd.dwolla.v1.hal+json',
-    'Accept-Encoding'=>'gzip, deflate',
-    'Authorization'=>"Bearer #{access_token}",
-    'Content-Type'=>'application/json',
-  }}
-
   before do
-    stub_request(:post, create_customer_endpoint).
-      with(body: dwolla_create_customer_params, headers: dwolla_request_headers).
-      to_return(customer_created_response)
+    dwolla_helper.stub_create_customer_request create_customer_params, dwolla_helper.customer_created_response(customer_token)
   end
 
   describe '#save' do
     it 'creates new customer in dwolla' do
       expect(subject.save).to eq(true)
       expect(subject.id).to eq(customer_token)
-      expect(subject.resource_location).to eq(customer_resource_location)
+      expect(subject.resource_location).to eq(dwolla_helper.customer_endpoint(customer_token))
     end
   end
 end

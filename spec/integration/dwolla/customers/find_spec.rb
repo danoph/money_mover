@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe MoneyMover::Dwolla::Customer do
-  let(:dwolla_endpoint) { "https://api-uat.dwolla.com" }
-
   let(:customer_token) { '9481924a-6795-4e7a-b436-a7a48a4141ca' }
 
   let(:firstName) { 'first name' }
@@ -15,7 +13,7 @@ describe MoneyMover::Dwolla::Customer do
   let(:customer_response_object) {{
     _links: {
       self: {
-        href: customer_resource_location
+        href: dwolla_helper.customer_endpoint(customer_token)
       }
     },
     id: customer_token,
@@ -33,21 +31,8 @@ describe MoneyMover::Dwolla::Customer do
     body: customer_response_object.to_json
   }}
 
-  let(:customer_resource_location) { "#{dwolla_endpoint}/customers/#{customer_token}" }
-
-  let(:access_token) { "X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak" }
-
-  let(:dwolla_request_headers) {{
-    'Accept'=>'application/vnd.dwolla.v1.hal+json',
-    'Accept-Encoding'=>'gzip, deflate',
-    'Authorization'=>"Bearer #{access_token}",
-    'Content-Type'=>'application/json',
-  }}
-
   before do
-    stub_request(:get, customer_resource_location).
-      with(headers: dwolla_request_headers).
-      to_return(customer_response)
+    dwolla_helper.stub_find_customer_request customer_token, customer_response
   end
 
   describe '.find' do
@@ -55,10 +40,11 @@ describe MoneyMover::Dwolla::Customer do
 
     it 'creates new customer in dwolla' do
       expect(subject.id).to eq(customer_token)
-      expect(subject.resource_location).to eq(customer_resource_location)
+      expect(subject.resource_location).to eq(dwolla_helper.customer_endpoint(customer_token))
       expect(subject.firstName).to eq(firstName)
       expect(subject.lastName).to eq(lastName)
       expect(subject.email).to eq(email)
+      expect(subject.ipAddress).to eq(ipAddress)
     end
   end
 end

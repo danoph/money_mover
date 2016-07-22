@@ -27,8 +27,6 @@ describe MoneyMover::Dwolla::FundingSource do
 
   let(:customer_token) { 'customer-token' }
 
-  let(:customer_funding_sources_endpoint) { "https://api-uat.dwolla.com/customers/#{customer_token}/funding-sources" }
-
   let(:request_params) {{
     name: name,
     type: type,
@@ -38,7 +36,7 @@ describe MoneyMover::Dwolla::FundingSource do
 
   describe '#save' do
     it 'creates new customer in dwolla' do
-      expect(client).to receive(:post).with(customer_funding_sources_endpoint, request_params) { response }
+      expect(client).to receive(:post).with(dwolla_helper.customer_funding_sources_endpoint(customer_token), request_params) { response }
 
       expect(subject.save).to eq(true)
 

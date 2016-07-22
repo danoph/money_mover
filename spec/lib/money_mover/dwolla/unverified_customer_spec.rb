@@ -24,8 +24,6 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
   let(:resource_id) { 'some-resource-id' }
   let(:resource_location) { "http://api-url.com/something/#{resource_id}" }
 
-  let(:customers_endpoint) { "https://api-uat.dwolla.com/customers" }
-
   let(:request_params) {{
     firstName: firstName,
     lastName: lastName,
@@ -35,7 +33,7 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
 
   describe '#save' do
     it 'creates new customer in dwolla' do
-      expect(client).to receive(:post).with(customers_endpoint, request_params) { response }
+      expect(client).to receive(:post).with(dwolla_helper.customers_endpoint, request_params) { response }
 
       expect(subject.save).to eq(true)
 
