@@ -12,7 +12,7 @@ class DwollaHelper
   end
 
   def customers_endpoint
-    [ api_endpoint, 'customers' ].join '/'
+    'customers'
   end
 
   def customer_endpoint(customer_token)
@@ -75,10 +75,14 @@ class DwollaHelper
   end
 
   def stub_get_request(url, response)
-    stub_request(:get, url).with(headers: request_headers).to_return(response)
+    stub_request(:get, build_dwolla_url(url)).with(headers: request_headers).to_return(response)
   end
 
   def stub_post_request(url, params, response)
-    stub_request(:post, url).with(body: params, headers: request_headers).to_return(response)
+    stub_request(:post, build_dwolla_url(url)).with(body: params, headers: request_headers).to_return(response)
+  end
+
+  def build_dwolla_url(url)
+    [ api_endpoint, url ].join '/'
   end
 end
