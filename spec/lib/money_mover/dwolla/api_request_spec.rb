@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MoneyMover::Dwolla::ApiRequest do
+describe MoneyMover::Dwolla::ApiGetRequest do
   let(:url) { 'some-url' }
 
   before do

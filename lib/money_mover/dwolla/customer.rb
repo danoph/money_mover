@@ -16,7 +16,7 @@ module MoneyMover
       end
 
       def self.find(id)
-        response = ApiRequest.new [ "customers", id ].join '/'
+        response = ApiGetRequest.new [ "customers", id ].join '/'
 
         if response.success?
           new response.parsed_json

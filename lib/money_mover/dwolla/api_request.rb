@@ -10,7 +10,7 @@ module MoneyMover
       end
 
       def success?
-        response.code == 200
+        response.code >= 200 && response.code < 400
       end
 
       def parsed_json
@@ -23,7 +23,7 @@ module MoneyMover
         @errors = {}
 
         begin
-          @response ||= @client.get @url
+          @response ||= perform_request
         rescue => e
           add_errors JSON.parse e.response.body, symbolize_names: true
           @response = e.response
@@ -52,23 +52,28 @@ module MoneyMover
       end
     end
 
+    class ApiGetRequest < ApiRequest
+      def initialize(url)
+        super url
+      end
+
+      def success?
+        response.code == 200
+      end
+
+      private
+
+      def perform_request
+        @client.get @url
+      end
+    end
+
     class ApiPostRequest < ApiRequest
       def initialize(url, params, client = ApiClient.new)
         @url = url
         @params = params
         @client = client
         @errors = {}
-      end
-
-      def response
-        @errors = {}
-
-        begin
-          @response ||= @client.post @url, @params
-        rescue => e
-          add_errors JSON.parse e.response.body, symbolize_names: true
-          @response = e.response
-        end
       end
 
       def success?
@@ -81,6 +86,12 @@ module MoneyMover
 
       def resource_id
         @resource_id ||= resource_location.split('/').last
+      end
+
+      private
+
+      def perform_request
+        @client.post @url, @params
       end
     end
   end
