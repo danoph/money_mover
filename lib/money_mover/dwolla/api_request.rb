@@ -20,14 +20,24 @@ module MoneyMover
     end
 
     class ApiPostRequest
+      attr_reader :errors
+
       def initialize(url, params, client = ApiClient.new)
         @url = url
         @params = params
         @client = client
+        @errors = {}
       end
 
       def response
-        @response ||= @client.post @url, @params
+        @errors = {}
+
+        begin
+          @response ||= @client.post @url, @params
+        rescue => e
+          add_errors JSON.parse e.response.body, symbolize_names: true
+          @response = e.response
+        end
       end
 
       def success?
@@ -44,6 +54,29 @@ module MoneyMover
 
       def resource_id
         @resource_id ||= resource_location.split('/').last
+      end
+
+      private
+
+      def add_errors(errors)
+        if errors[:_embedded]
+          errors[:_embedded][:errors].each do |error|
+            if error[:path]
+              key = error[:path].split('/')[1].to_sym
+            else
+              key = :base
+            end
+
+            add_error key, error[:message]
+          end
+        else
+          add_error :base, erors[:message]
+        end
+      end
+
+      def add_error(key, message)
+        @errors[key] ||= []
+        @errors[key] << message
       end
     end
   end

@@ -25,14 +25,51 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
   }}
 
   before do
-    dwolla_helper.stub_create_customer_request create_customer_params, dwolla_helper.customer_created_response(customer_token)
+    dwolla_helper.stub_create_customer_request create_customer_params, create_response
   end
 
   describe '#save' do
-    it 'creates new customer in dwolla' do
-      expect(subject.save).to eq(true)
-      expect(subject.id).to eq(customer_token)
-      expect(subject.resource_location).to eq(dwolla_helper.customer_endpoint(customer_token))
+    context 'success' do
+      let(:create_response) { dwolla_helper.customer_created_response customer_token }
+
+      it 'creates new customer in dwolla' do
+        expect(subject.save).to eq(true)
+        expect(subject.id).to eq(customer_token)
+        expect(subject.resource_location).to eq(dwolla_helper.customer_endpoint(customer_token))
+      end
+    end
+
+    context 'fail' do
+      let(:create_response) { dwolla_helper.resource_create_error_response error_response }
+
+      #let(:error_response) {{
+        #code: "ValidationError",
+        #message: "Validation error(s) present. See embedded errors list for more details.",
+        #_embedded: {
+          #errors: [
+            #{ code: "Invalid", message: "Invalid parameter.", path: "/firstName"
+          #}
+          #]
+        #}
+      #}}
+
+      let(:error_response) {{
+        code: "ValidationError",
+        message: "Validation error(s) present. See embedded errors list for more details.",
+        _embedded: {
+          errors: [
+            { code: "Duplicate", message: "A customer with the specified email already exists.", path: "/email"
+          }
+          ]
+        }
+      }}
+
+      it 'returns errors' do
+        expect(subject.save).to eq(false)
+        expect(subject.errors[:email]).to eq(['A customer with the specified email already exists.'])
+        expect(subject.id).to be_nil
+        expect(subject.resource_location).to be_nil
+      end
     end
   end
 end

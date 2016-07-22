@@ -1,7 +1,11 @@
 module MoneyMover
   module Dwolla
     class UnverifiedCustomer < Customer
+      attr_reader :errors
+
       def save
+        @errors = {}
+
         response = ApiPostRequest.new "customers", request_params
 
         if response.success?
@@ -9,6 +13,7 @@ module MoneyMover
           @id = response.resource_id
           true
         else
+          @errors = response.errors
           false
         end
       end

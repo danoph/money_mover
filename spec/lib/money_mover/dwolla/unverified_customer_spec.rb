@@ -15,7 +15,8 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
 
   subject { described_class.new(attrs) }
 
-  let(:response) { double 'response', success?: success?, resource_id: resource_id, resource_location: resource_location }
+  let(:response) { double 'response', success?: success?, errors: response_errors, resource_id: resource_id, resource_location: resource_location }
+  let(:response_errors) { { email: 'invalid' } }
 
   let(:resource_id) { 'some-resource-id' }
   let(:resource_location) { "http://api-url.com/something/#{resource_id}" }
@@ -39,6 +40,7 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
 
       it 'adds id and resource location, returns true' do
         expect(subject.save).to eq(true)
+        expect(subject.errors).to eq({})
 
         expect(subject.id).to eq(resource_id)
         expect(subject.resource_location).to eq(resource_location)
@@ -50,6 +52,7 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
 
       it 'returns false' do
         expect(subject.save).to eq(false)
+        expect(subject.errors).to eq(response_errors)
 
         expect(subject.id).to be_nil
         expect(subject.resource_location).to be_nil

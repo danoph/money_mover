@@ -54,6 +54,14 @@ class DwollaHelper
     }
   end
 
+  def resource_create_error_response(response_body)
+    {
+      status: 400,
+      body: response_body.to_json,
+      headers: {"Content-Type" => "application/json"}
+    }
+  end
+
   def stub_create_customer_request(params, response)
     stub_post_request customers_endpoint, params, response
   end
