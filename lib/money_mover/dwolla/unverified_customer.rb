@@ -3,7 +3,9 @@ module MoneyMover
     class UnverifiedCustomer
       attr_reader :id, :resource_location
 
-      def initialize(attrs)
+      def initialize(attrs, client = ApiClient.new)
+        @client = client
+
         @id = nil
         @resource_location = nil
 
@@ -14,7 +16,7 @@ module MoneyMover
       end
 
       def save
-        response = RestClient.post customers_endpoint, request_params.to_json, request_headers
+        response = @client.post customers_endpoint, request_params
 
         case response.code
         when 201
@@ -24,6 +26,27 @@ module MoneyMover
         else
           false
         end
+      end
+
+      private
+
+      def request_params
+        {
+          firstName: @first_name,
+          lastName: @last_name,
+          email: @email,
+          ipAddress: @ip_address
+        }
+      end
+
+      def customers_endpoint
+        "https://api-uat.dwolla.com/customers"
+      end
+    end
+
+    class ApiClient
+      def post(url, request_params)
+        RestClient.post url, request_params.to_json, request_headers
       end
 
       private
@@ -38,19 +61,6 @@ module MoneyMover
           accept: 'application/vnd.dwolla.v1.hal+json',
           Authorization: "Bearer #{access_token}"
         }
-      end
-
-      def request_params
-        {
-          firstName: @first_name,
-          lastName: @last_name,
-          email: @email,
-          ipAddress: @ip_address
-        }
-      end
-
-      def customers_endpoint
-        "https://api-uat.dwolla.com/customers"
       end
     end
   end

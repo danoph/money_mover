@@ -3,7 +3,9 @@ module MoneyMover
     class FundingSource
       attr_reader :id, :resource_location
 
-      def initialize(attrs)
+      def initialize(attrs, client = ApiClient.new)
+        @client = client
+
         @customer_id = attrs[:customer_id]
 
         @id = nil
