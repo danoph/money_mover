@@ -1,9 +1,7 @@
 module MoneyMover
   module Dwolla
-    class Customer
+    class Customer < ApiResource
       attr_accessor :id, :firstName, :lastName, :email, :ipAddress
-
-      attr_reader :resource_location
 
       def initialize(attrs)
         @id = attrs[:id]
@@ -16,13 +14,19 @@ module MoneyMover
       end
 
       def self.find(id)
-        response = ApiGetRequest.new [ "customers", id ].join '/'
+        response = ApiGetRequest.new [ endpoint, id ].join '/'
 
         if response.success?
           new response.parsed_json
         else
           raise 'Customer Not Found'
         end
+      end
+
+      private
+
+      def self.endpoint
+        "customers"
       end
     end
   end
