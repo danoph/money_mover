@@ -1,5 +1,7 @@
 # Version
 require 'money_mover/version'
 
-class MoneyMover
+require 'money_mover/dwolla/customer'
+
+module MoneyMover
 end
