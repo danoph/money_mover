@@ -20,7 +20,8 @@ describe MoneyMover::Dwolla::FundingSource do
 
       let(:create_url) { [ 'customers', customer_token, 'funding-sources' ].join '/' }
 
-      let(:response) { double 'response', success?: success?, resource_location: resource_location, resource_id: resource_id }
+      let(:response) { double 'response', success?: success?, errors: response_errors, resource_location: resource_location, resource_id: resource_id }
+      let(:response_errors) { { name: ['invalid' ] } }
       let(:resource_id) { 'some-resource-id' }
       let(:resource_location) { "http://api-url.com/something/#{resource_id}" }
 

@@ -19,13 +19,20 @@ module MoneyMover
         if response.success?
           @resource_location = response.resource_location
           @id = response.resource_id
-          true
         else
-          false
+          add_errors response.errors
         end
+
+        errors.empty?
       end
 
       private
+
+      def add_errors(new_errors)
+        new_errors.each_pair do |key, messages|
+          messages.each {|message| errors.add key, message }
+        end
+      end
 
       def request_params
         {
