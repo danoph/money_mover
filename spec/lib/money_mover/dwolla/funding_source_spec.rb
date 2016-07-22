@@ -3,22 +3,20 @@ require 'spec_helper'
 describe MoneyMover::Dwolla::FundingSource do
   let(:name) { double 'name' }
   let(:type) { double 'type' }
-  let(:routing_number) { double 'routing number' }
-  let(:account_number) { double 'account number' }
+  let(:routingNumber) { double 'routing number' }
+  let(:accountNumber) { double 'account number' }
 
   let(:attrs) {{
     customer_id: customer_token,
     name: name,
     type: type,
-    routing_number: routing_number,
-    account_number: account_number
+    routingNumber: routingNumber,
+    accountNumber: accountNumber
   }}
 
   subject { described_class.new(attrs) }
 
-  let(:response) { double 'response', code: response_code, headers: response_headers }
-  let(:response_headers) { { location: resource_location } }
-
+  let(:response) { double 'response', success?: success?, resource_location: resource_location, resource_id: resource_id }
   let(:resource_id) { 'some-resource-id' }
   let(:resource_location) { "http://api-url.com/something/#{resource_id}" }
 
@@ -27,25 +25,21 @@ describe MoneyMover::Dwolla::FundingSource do
   let(:request_params) {{
     name: name,
     type: type,
-    routingNumber: routing_number,
-    accountNumber: account_number
+    routingNumber: routingNumber,
+    accountNumber: accountNumber
   }}
 
   let(:create_url) { [ 'customers', customer_token, 'funding-sources' ].join '/' }
 
-  let(:client) { double 'client' }
-
   before do
-    allow(MoneyMover::Dwolla::ApiClient).to receive(:new) { client }
+    allow(MoneyMover::Dwolla::ApiPostRequest).to receive(:new).with(create_url, request_params) { response }
   end
 
   describe '#save' do
     context 'success' do
-      let(:response_code) { 201 }
+      let(:success?) { true }
 
       it 'adds id and resource location, returns true' do
-        expect(client).to receive(:post).with(create_url, request_params) { response }
-
         expect(subject.save).to eq(true)
 
         expect(subject.id).to eq(resource_id)
@@ -54,11 +48,9 @@ describe MoneyMover::Dwolla::FundingSource do
     end
 
     context 'fail' do
-      let(:response_code) { 400 }
+      let(:success?) { false }
 
       it 'returns false' do
-        expect(client).to receive(:post).with(create_url, request_params) { response }
-
         expect(subject.save).to eq(false)
 
         expect(subject.id).to be_nil

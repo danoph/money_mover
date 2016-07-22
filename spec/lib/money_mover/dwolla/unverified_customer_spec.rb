@@ -13,13 +13,9 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
     ipAddress: ipAddress
   }}
 
-  let(:client) { double 'client' }
+  subject { described_class.new(attrs) }
 
-  subject { described_class.new(attrs, client) }
-
-  let(:response) { double 'response', code: response_code, headers: response_headers }
-  let(:response_code) { 201 }
-  let(:response_headers) { { location: resource_location } }
+  let(:response) { double 'response', success?: success?, resource_id: resource_id, resource_location: resource_location }
 
   let(:resource_id) { 'some-resource-id' }
   let(:resource_location) { "http://api-url.com/something/#{resource_id}" }
@@ -31,14 +27,33 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
     ipAddress: ipAddress
   }}
 
+  let(:create_url) { 'customers' }
+
+  before do
+    allow(MoneyMover::Dwolla::ApiPostRequest).to receive(:new).with(create_url, request_params) { response }
+  end
+
   describe '#save' do
-    it 'creates new customer in dwolla' do
-      expect(client).to receive(:post).with("customers", request_params) { response }
+    context 'success' do
+      let(:success?) { true }
 
-      expect(subject.save).to eq(true)
+      it 'adds id and resource location, returns true' do
+        expect(subject.save).to eq(true)
 
-      expect(subject.id).to eq(resource_id)
-      expect(subject.resource_location).to eq(resource_location)
+        expect(subject.id).to eq(resource_id)
+        expect(subject.resource_location).to eq(resource_location)
+      end
+    end
+
+    context 'fail' do
+      let(:success?) { false }
+
+      it 'returns false' do
+        expect(subject.save).to eq(false)
+
+        expect(subject.id).to be_nil
+        expect(subject.resource_location).to be_nil
+      end
     end
   end
 end

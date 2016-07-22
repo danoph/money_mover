@@ -5,9 +5,7 @@ module MoneyMover
 
       attr_reader :resource_location
 
-      def initialize(attrs, client = ApiClient.new)
-        @client = client
-
+      def initialize(attrs)
         @id = attrs[:id]
         @resource_location = attrs.dig(:_links, :self, :href)
 

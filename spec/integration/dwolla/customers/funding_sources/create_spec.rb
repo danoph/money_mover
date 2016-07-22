@@ -3,15 +3,15 @@ require 'spec_helper'
 describe MoneyMover::Dwolla::FundingSource do
   let(:name) { 'my checking account' }
   let(:type) { 'checking' }
-  let(:routing_number) { '222222226' }
-  let(:account_number) { '9393' }
+  let(:routingNumber) { '222222226' }
+  let(:accountNumber) { '9393' }
 
   let(:attrs) {{
     customer_id: customer_token,
     name: name,
     type: type,
-    routing_number: routing_number,
-    account_number: account_number
+    routingNumber: routingNumber,
+    accountNumber: accountNumber
   }}
 
   subject { described_class.new(attrs) }
@@ -22,8 +22,8 @@ describe MoneyMover::Dwolla::FundingSource do
   let(:create_params) {{
     name: name,
     type: type,
-    routingNumber: routing_number,
-    accountNumber: account_number
+    routingNumber: routingNumber,
+    accountNumber: accountNumber
   }}
 
   before do

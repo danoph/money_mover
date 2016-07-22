@@ -7,38 +7,33 @@ describe MoneyMover::Dwolla::Customer do
     let(:new_customer) { double 'new customer' }
     let(:id) { double 'id' }
 
-    let(:client) { double 'client' }
-
     before do
-      allow(MoneyMover::Dwolla::ApiClient).to receive(:new) { client }
-      allow(subject).to receive(:new).with(response_body) { new_customer }
+      allow(MoneyMover::Dwolla::ApiRequest).to receive(:new).with(customer_url) { response }
+      allow(subject).to receive(:new).with(parsed_json) { new_customer }
     end
 
     let(:customer_url) { [ "customers", id ].join '/' }
 
-    let(:response) { double 'response', code: response_code, body: response_body.to_json }
-    let(:response_body) { '' }
+    let(:response) { double 'response', success?: success?, parsed_json: parsed_json }
+    let(:parsed_json) {{
+      firstName: 'first Name',
+      lastName: 'last Name',
+      email: 'email@example.com',
+      ipAddress: 'ip Address'
+    }}
 
     context 'success' do
-      let(:response_code) { 200 }
-      let(:response_body) {{
-        firstName: 'first Name',
-        lastName: 'last Name',
-        email: 'email@example.com',
-        ipAddress: 'ip Address'
-      }}
+      let(:success?) { true }
 
       it 'returns parsed json response' do
-        expect(client).to receive(:get).with(customer_url) { response }
         expect(subject.find(id)).to eq(new_customer)
       end
     end
 
     context 'fail' do
-      let(:response_code) { 404 }
+      let(:success?) { false }
 
       it 'raises error' do
-        expect(client).to receive(:get).with(customer_url) { response }
         expect{ subject.find(id) }.to raise_error('Customer Not Found')
       end
     end

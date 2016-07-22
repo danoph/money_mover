@@ -3,9 +3,7 @@ module MoneyMover
     class FundingSource
       attr_reader :id, :resource_location
 
-      def initialize(attrs, client = ApiClient.new)
-        @client = client
-
+      def initialize(attrs)
         @customer_id = attrs[:customer_id]
 
         @id = nil
@@ -13,8 +11,8 @@ module MoneyMover
 
         @name = attrs[:name]
         @type = attrs[:type]
-        @routing_number = attrs[:routing_number]
-        @account_number = attrs[:account_number]
+        @routingNumber = attrs[:routingNumber]
+        @accountNumber = attrs[:accountNumber]
       end
 
       def save
@@ -35,8 +33,8 @@ module MoneyMover
         {
           name: @name,
           type: @type,
-          routingNumber: @routing_number,
-          accountNumber: @account_number
+          routingNumber: @routingNumber,
+          accountNumber: @accountNumber
         }
       end
 
