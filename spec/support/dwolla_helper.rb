@@ -40,6 +40,10 @@ class DwollaHelper
     resource_created_response customer_endpoint(customer_token)
   end
 
+  def transfer_created_response(transfer_token)
+    resource_created_response transfer_endpoint(transfer_token)
+  end
+
   def customer_funding_source_created_response(customer_token, funding_source_token)
     resource_created_response customer_funding_source_endpoint(customer_token, funding_source_token)
   end
@@ -54,6 +58,14 @@ class DwollaHelper
 
   def funding_source_microdeposits_endpoint(funding_source_token)
     [ funding_source_endpoint(funding_source_token), "micro-deposits" ].join '/'
+  end
+
+  def transfers_endpoint
+    "transfers"
+  end
+
+  def transfer_endpoint(transfer_token)
+    [ transfers_endpoint, transfer_token ].join '/'
   end
 
   def resource_created_response(resource_location)
@@ -88,6 +100,10 @@ class DwollaHelper
 
   def stub_funding_source_microdeposits_request(funding_source_token, create_params, response)
     stub_post_request funding_source_microdeposits_endpoint(funding_source_token), create_params, response
+  end
+
+  def stub_create_transfer_request(params, response)
+    stub_post_request transfers_endpoint, params, response
   end
 
   def stub_get_request(url, response)

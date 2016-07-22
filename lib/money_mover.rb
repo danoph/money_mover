@@ -12,5 +12,6 @@ require 'money_mover/dwolla/unverified_customer'
 require 'money_mover/dwolla/funding_source'
 require 'money_mover/dwolla/microdeposit_initiation'
 require 'money_mover/dwolla/microdeposit_verification'
+require 'money_mover/dwolla/transfer'
 
 module MoneyMover; end
