@@ -1,21 +1,17 @@
 module MoneyMover
   module Dwolla
     class FundingSource
-      attr_reader :id, :resource_location
+      include ActiveModel::Model
 
-      def initialize(attrs)
-        @customer_id = attrs[:customer_id]
+      attr_accessor :customer_id, :id, :name, :type, :routingNumber, :accountNumber
 
-        @id = nil
-        @resource_location = nil
+      attr_reader :resource_location
 
-        @name = attrs[:name]
-        @type = attrs[:type]
-        @routingNumber = attrs[:routingNumber]
-        @accountNumber = attrs[:accountNumber]
-      end
+      validates_presence_of :name, :type, :routingNumber, :accountNumber
 
       def save
+        return false unless valid?
+
         response = ApiPostRequest.new customer_funding_sources_endpoint, request_params
 
         if response.success?
@@ -31,15 +27,15 @@ module MoneyMover
 
       def request_params
         {
-          name: @name,
-          type: @type,
-          routingNumber: @routingNumber,
-          accountNumber: @accountNumber
+          name: name,
+          type: type,
+          routingNumber: routingNumber,
+          accountNumber: accountNumber
         }
       end
 
       def customer_funding_sources_endpoint
-        [ "customers", @customer_id, "funding-sources" ].join('/')
+        [ "customers", customer_id, "funding-sources" ].join('/')
       end
     end
   end

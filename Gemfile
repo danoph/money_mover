@@ -5,6 +5,6 @@ gemspec
 group :development do
   gem 'rake'
   gem 'rspec'
-  #gem 'mime-types', '2.6.2'
-  gem 'rest-client', '2.0.0'
+  gem 'webmock'
+  gem 'activemodel', '~> 5.0.0'
 end

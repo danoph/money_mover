@@ -1,3 +1,5 @@
+require 'active_model'
+
 # Version
 require 'money_mover/version'
 
