@@ -9,6 +9,10 @@ module MoneyMover
         RestClient.post url, request_params.to_json, request_headers
       end
 
+      def get(url)
+        RestClient.get url, request_headers
+      end
+
       private
 
       def request_headers

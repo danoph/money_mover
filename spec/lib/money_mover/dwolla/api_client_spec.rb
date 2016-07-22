@@ -26,4 +26,11 @@ describe MoneyMover::Dwolla::ApiClient do
       expect(subject.post(url, request_params)).to eq(response)
     end
   end
+
+  describe '#get' do
+    it 'calls endpoint with correct token' do
+      expect(RestClient).to receive(:get).with(url, request_headers) { response }
+      expect(subject.get(url)).to eq(response)
+    end
+  end
 end

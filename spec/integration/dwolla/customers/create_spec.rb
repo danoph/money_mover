@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe MoneyMover::Dwolla::UnverifiedCustomer do
-  let(:first_name) { 'first name' }
-  let(:last_name) { 'last name' }
+  let(:firstName) { 'first name' }
+  let(:lastName) { 'last name' }
   let(:email) { 'some@example.com' }
-  let(:ip_address) { '127.0.0.1' }
+  let(:ipAddress) { '127.0.0.1' }
 
   let(:attrs) {{
-    first_name: first_name,
-    last_name: last_name,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
-    ip_address: ip_address
+    ipAddress: ipAddress
   }}
 
   subject { described_class.new(attrs) }
@@ -32,10 +32,10 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
   let(:customer_resource_location) { "#{dwolla_endpoint}/customers/#{customer_token}" }
 
   let(:dwolla_create_customer_params) {{
-    firstName: first_name,
-    lastName: last_name,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
-    ipAddress: ip_address
+    ipAddress: ipAddress
   }}
 
   let(:access_token) { "X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak" }

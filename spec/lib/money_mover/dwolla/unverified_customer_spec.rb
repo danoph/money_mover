@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe MoneyMover::Dwolla::UnverifiedCustomer do
-  let(:first_name) { double 'first name' }
-  let(:last_name) { double 'last name' }
+  let(:firstName) { double 'first name' }
+  let(:lastName) { double 'last name' }
   let(:email) { double 'email' }
-  let(:ip_address) { double 'ip address' }
+  let(:ipAddress) { double 'ip address' }
 
   let(:attrs) {{
-    first_name: first_name,
-    last_name: last_name,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
-    ip_address: ip_address
+    ipAddress: ipAddress
   }}
 
   let(:client) { double 'client' }
@@ -27,10 +27,10 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
   let(:customers_endpoint) { "https://api-uat.dwolla.com/customers" }
 
   let(:request_params) {{
-    firstName: first_name,
-    lastName: last_name,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
-    ipAddress: ip_address
+    ipAddress: ipAddress
   }}
 
   describe '#save' do
