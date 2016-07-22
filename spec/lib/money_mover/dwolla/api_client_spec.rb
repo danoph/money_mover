@@ -15,21 +15,24 @@ describe MoneyMover::Dwolla::ApiClient do
   }}
 
   let(:access_token) { 'X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak' }
+  let(:api_endpoint) { double 'api endpoint' }
 
-  let(:config) { double 'config', access_token: access_token }
+  let(:config) { double 'config', api_endpoint: api_endpoint, access_token: access_token }
+
+  let(:full_url) { [ config.api_endpoint, url ].join '/' }
 
   subject { described_class.new(config) }
 
   describe '#post' do
     it 'calls endpoint with correct token' do
-      expect(RestClient).to receive(:post).with(url, request_params_json, request_headers) { response }
+      expect(RestClient).to receive(:post).with(full_url, request_params_json, request_headers) { response }
       expect(subject.post(url, request_params)).to eq(response)
     end
   end
 
   describe '#get' do
     it 'calls endpoint with correct token' do
-      expect(RestClient).to receive(:get).with(url, request_headers) { response }
+      expect(RestClient).to receive(:get).with(full_url, request_headers) { response }
       expect(subject.get(url)).to eq(response)
     end
   end

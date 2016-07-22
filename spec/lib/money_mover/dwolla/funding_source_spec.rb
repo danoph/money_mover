@@ -34,9 +34,11 @@ describe MoneyMover::Dwolla::FundingSource do
     accountNumber: account_number
   }}
 
+  let(:create_url) { [ 'customers', customer_token, 'funding-sources' ].join '/' }
+
   describe '#save' do
     it 'creates new customer in dwolla' do
-      expect(client).to receive(:post).with(dwolla_helper.customer_funding_sources_endpoint(customer_token), request_params) { response }
+      expect(client).to receive(:post).with(create_url, request_params) { response }
 
       expect(subject.save).to eq(true)
 

@@ -33,7 +33,7 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
 
   describe '#save' do
     it 'creates new customer in dwolla' do
-      expect(client).to receive(:post).with(dwolla_helper.customers_endpoint, request_params) { response }
+      expect(client).to receive(:post).with("customers", request_params) { response }
 
       expect(subject.save).to eq(true)
 

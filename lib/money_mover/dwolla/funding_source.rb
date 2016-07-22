@@ -42,7 +42,7 @@ module MoneyMover
       end
 
       def customer_funding_sources_endpoint
-        "https://api-uat.dwolla.com/customers/#{@customer_id}/funding-sources"
+        [ "customers", @customer_id, "funding-sources" ].join('/')
       end
     end
   end

@@ -19,7 +19,7 @@ module MoneyMover
 
       def self.find(id)
         client = ApiClient.new
-        response = client.get "#{customers_endpoint}/#{id}"
+        response = client.get [ "customers", id ].join '/'
 
         case response.code
         when 200
@@ -28,14 +28,6 @@ module MoneyMover
         else
           raise 'Customer not Found'
         end
-      end
-
-      def customers_endpoint
-        "https://api-uat.dwolla.com/customers"
-      end
-
-      def self.customers_endpoint
-        "https://api-uat.dwolla.com/customers"
       end
     end
   end

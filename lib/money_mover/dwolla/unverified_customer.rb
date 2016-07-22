@@ -2,7 +2,7 @@ module MoneyMover
   module Dwolla
     class UnverifiedCustomer < Customer
       def save
-        response = @client.post customers_endpoint, request_params
+        response = @client.post "customers", request_params
 
         case response.code
         when 201

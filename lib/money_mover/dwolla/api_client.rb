@@ -6,14 +6,18 @@ module MoneyMover
       end
 
       def post(url, request_params)
-        RestClient.post url, request_params.to_json, request_headers
+        RestClient.post build_url(url), request_params.to_json, request_headers
       end
 
       def get(url)
-        RestClient.get url, request_headers
+        RestClient.get build_url(url), request_headers
       end
 
       private
+
+      def build_url(uri)
+        [ @config.api_endpoint, uri ].join '/'
+      end
 
       def request_headers
         {
