@@ -18,7 +18,7 @@ module MoneyMover
       end
 
       def save
-        response = RestClient.post customer_funding_sources_endpoint, request_params.to_json, request_headers
+        response = @client.post customer_funding_sources_endpoint, request_params
 
         case response.code
         when 201
@@ -31,18 +31,6 @@ module MoneyMover
       end
 
       private
-
-      def access_token
-        'X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak'
-      end
-
-      def request_headers
-        {
-          content_type: :json,
-          accept: 'application/vnd.dwolla.v1.hal+json',
-          Authorization: "Bearer #{access_token}"
-        }
-      end
 
       def request_params
         {
