@@ -25,6 +25,7 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
   }}
 
   before do
+    dwolla_helper.set_access_token
     dwolla_helper.stub_create_customer_request create_customer_params, create_response
   end
 

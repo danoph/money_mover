@@ -68,7 +68,7 @@ module MoneyMover
       private
 
       def perform_request
-        @client.get @url
+        @client.get @url, Dwolla::access_token
       end
     end
 
@@ -95,7 +95,7 @@ module MoneyMover
       private
 
       def perform_request
-        @client.post @url, @params
+        @client.post @url, @params, Dwolla::access_token
       end
     end
   end

@@ -9,6 +9,7 @@ describe MoneyMover::Dwolla::Customer do
   let(:ipAddress) { '127.0.0.1' }
 
   before do
+    dwolla_helper.set_access_token
     dwolla_helper.stub_find_customer_request customer_token, customer_response
   end
 

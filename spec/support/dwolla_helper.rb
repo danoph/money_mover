@@ -3,7 +3,14 @@ require 'webmock'
 class DwollaHelper
   include WebMock::API
 
-  def access_token
+  attr_reader :access_token
+
+  def set_access_token(new_access_token = nil)
+    @access_token = new_access_token || default_access_token
+    MoneyMover::Dwolla.access_token = @access_token
+  end
+
+  def default_access_token
     "X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak"
   end
 

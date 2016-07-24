@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MoneyMover::Dwolla::Document do
   let(:customer_id) { 'customer-id' }
-  let(:file) { File.expand_path('../../../../support/fixtures/sample.jpg', __FILE__) }
+  let(:file) { File.expand_path('../../../../../support/fixtures/sample.jpg', __FILE__) }
   let(:documentType) { 'other' }
 
   let(:attrs) {{
@@ -21,6 +21,7 @@ describe MoneyMover::Dwolla::Document do
   let(:resource_token) { 'some-token' }
 
   before do
+    dwolla_helper.set_access_token
     dwolla_helper.stub_request(:post, dwolla_helper.build_dwolla_url(dwolla_helper.customer_documents_endpoint(customer_id))).with(headers: dwolla_helper.request_headers).to_return(create_response)
   end
 

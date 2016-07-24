@@ -4,6 +4,7 @@ describe MoneyMover::Dwolla::ApiGetRequest do
   let(:url) { 'some-url' }
 
   before do
+    dwolla_helper.set_access_token
     dwolla_helper.stub_get_request url, response
   end
 
@@ -57,6 +58,7 @@ describe MoneyMover::Dwolla::ApiPostRequest do
   }}
 
   before do
+    dwolla_helper.set_access_token
     dwolla_helper.stub_post_request url, params, response
   end
 
