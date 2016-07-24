@@ -1,3 +1,4 @@
+require 'rest-client'
 require 'active_model'
 
 require 'money_mover/version'

@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.add_dependency('rest-client', '>= 2.0.0', '< 3.0')
-  s.add_dependency('activemodel', '~> 5.0.0')
+  s.add_dependency('activemodel', '~> 4.2', '>= 4.2.6')
 
   s.files = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- spec/*`.split("\n")
