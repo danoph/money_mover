@@ -1,17 +1,24 @@
 require 'webmock'
 
+class TestDwollaTokenProvider
+  def access_token
+    "X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak"
+  end
+
+  def refresh_token
+    "karalksjdfkasjfkweriuert"
+  end
+end
+
 class DwollaHelper
   include WebMock::API
 
-  attr_reader :access_token
-
-  def set_access_token(new_access_token = nil)
-    @access_token = new_access_token || default_access_token
-    MoneyMover::Dwolla.access_token = @access_token
+  def initialize
+    @token_provider = MoneyMover::Dwolla.account_token_provider = TestDwollaTokenProvider.new
   end
 
-  def default_access_token
-    "X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak"
+  def access_token
+    @token_provider.access_token
   end
 
   def api_endpoint

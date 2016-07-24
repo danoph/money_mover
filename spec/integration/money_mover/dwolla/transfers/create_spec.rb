@@ -34,7 +34,6 @@ describe MoneyMover::Dwolla::Transfer do
   let(:resource_token) { 'some-token' }
 
   before do
-    dwolla_helper.set_access_token
     dwolla_helper.stub_create_transfer_request create_params, create_response
   end
 

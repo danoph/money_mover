@@ -4,11 +4,10 @@ describe MoneyMover::Dwolla::ApiGetRequest do
   let(:url) { 'some-url' }
 
   before do
-    dwolla_helper.set_access_token
     dwolla_helper.stub_get_request url, response
   end
 
-  subject { described_class.new(url) }
+  subject { described_class.new(url: url, access_token: dwolla_helper.access_token) }
 
   describe '#success?' do
     context 'success' do
@@ -58,11 +57,10 @@ describe MoneyMover::Dwolla::ApiPostRequest do
   }}
 
   before do
-    dwolla_helper.set_access_token
     dwolla_helper.stub_post_request url, params, response
   end
 
-  subject { described_class.new(url, params) }
+  subject { described_class.new(url: url, params: params, access_token: dwolla_helper.access_token) }
 
   describe '#success?' do
     context 'success' do

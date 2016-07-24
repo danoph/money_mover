@@ -12,7 +12,6 @@ describe MoneyMover::Dwolla::MicrodepositInitiation do
   let(:create_params) {{}}
 
   before do
-    dwolla_helper.set_access_token
     dwolla_helper.stub_funding_source_microdeposits_request funding_source_token, create_params, create_response
   end
 

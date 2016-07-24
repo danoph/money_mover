@@ -21,7 +21,6 @@ describe MoneyMover::Dwolla::Document do
   let(:resource_token) { 'some-token' }
 
   before do
-    dwolla_helper.set_access_token
     dwolla_helper.stub_request(:post, dwolla_helper.build_dwolla_url(dwolla_helper.customer_documents_endpoint(customer_id))).with(headers: dwolla_helper.request_headers).to_return(create_response)
   end
 

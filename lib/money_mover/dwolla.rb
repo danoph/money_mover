@@ -1,4 +1,5 @@
 require 'money_mover/dwolla/config'
+require 'money_mover/dwolla/account_token_provider'
 require 'money_mover/dwolla/api_client'
 require 'money_mover/dwolla/api_request'
 require 'money_mover/dwolla/api_resource'
@@ -12,10 +13,10 @@ require 'money_mover/dwolla/unverified_customer'
 
 module MoneyMover
   module Dwolla
-    @access_token = nil
+    @account_token_provider = nil
 
     class << self
-      attr_accessor :access_token
+      attr_accessor :account_token_provider
     end
   end
 end

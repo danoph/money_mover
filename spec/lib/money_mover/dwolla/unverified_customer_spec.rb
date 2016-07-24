@@ -33,7 +33,7 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
       let(:create_url) { 'customers' }
 
       before do
-        allow(MoneyMover::Dwolla::ApiPostRequest).to receive(:new).with(create_url, request_params) { response }
+        allow(MoneyMover::Dwolla::ApiPostRequest).to receive(:new).with(url: create_url, params: request_params, access_token: dwolla_helper.access_token) { response }
       end
 
       context 'success' do

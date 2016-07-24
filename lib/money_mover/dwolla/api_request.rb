@@ -3,8 +3,10 @@ module MoneyMover
     class ApiRequest
       attr_reader :errors
 
-      def initialize(url, client = ApiClient.new)
-        @url = url
+      def initialize(opts={}, client = ApiClient.new)
+        @url = opts[:url]
+        @params = opts[:params]
+        @access_token = opts[:access_token]
         @client = client
         @errors = {}
       end
@@ -57,10 +59,6 @@ module MoneyMover
     end
 
     class ApiGetRequest < ApiRequest
-      def initialize(url)
-        super url
-      end
-
       def success?
         response.code == 200
       end
@@ -68,18 +66,11 @@ module MoneyMover
       private
 
       def perform_request
-        @client.get @url, Dwolla::access_token
+        @client.get @url, @access_token
       end
     end
 
     class ApiPostRequest < ApiRequest
-      def initialize(url, params, client = ApiClient.new)
-        @url = url
-        @params = params
-        @client = client
-        @errors = {}
-      end
-
       #def success?
         #response.code == 201
       #end
@@ -95,7 +86,7 @@ module MoneyMover
       private
 
       def perform_request
-        @client.post @url, @params, Dwolla::access_token
+        @client.post @url, @params, @access_token
       end
     end
   end

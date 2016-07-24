@@ -17,7 +17,8 @@ module MoneyMover
       end
 
       def self.find(id)
-        response = ApiGetRequest.new [ endpoint, id ].join '/'
+        url = [ endpoint, id ].join '/'
+        response = ApiGetRequest.new url: url, access_token: Dwolla::account_token_provider.access_token
 
         if response.success?
           new response.parsed_json

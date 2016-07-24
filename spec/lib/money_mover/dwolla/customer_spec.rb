@@ -8,7 +8,7 @@ describe MoneyMover::Dwolla::Customer do
     let(:id) { double 'id' }
 
     before do
-      allow(MoneyMover::Dwolla::ApiRequest).to receive(:new).with(customer_url) { response }
+      allow(MoneyMover::Dwolla::ApiRequest).to receive(:new).with(url: customer_url, access_token: dwolla_helper.access_token) { response }
       allow(subject).to receive(:new).with(parsed_json) { new_customer }
     end
 

@@ -27,7 +27,6 @@ describe MoneyMover::Dwolla::FundingSource do
   }}
 
   before do
-    dwolla_helper.set_access_token
     dwolla_helper.stub_create_customer_funding_source_request customer_token, create_params, dwolla_helper.customer_funding_source_created_response(customer_token, funding_source_token)
   end
 

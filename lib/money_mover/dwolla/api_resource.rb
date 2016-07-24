@@ -8,7 +8,7 @@ module MoneyMover
       def save
         return false unless valid?
 
-        response = ApiPostRequest.new endpoint, request_params
+        response = ApiPostRequest.new url: endpoint, params: request_params, access_token: Dwolla.account_token_provider.access_token
 
         if response.success?
           @resource_location = response.resource_location
@@ -21,7 +21,8 @@ module MoneyMover
       end
 
       def self.find(id)
-        response = ApiGetRequest.new [ endpoint, id ].join '/'
+        url = [ endpoint, id ].join '/'
+        response = ApiGetRequest.new url: url, access_token: Dwolla.account_token_provider.access_token
 
         if response.success?
           new response.parsed_json
