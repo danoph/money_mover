@@ -44,12 +44,28 @@ class DwollaHelper
     resource_created_response transfer_endpoint(transfer_token)
   end
 
+  def customer_document_created_response(resource_token)
+    resource_created_response document_endpoint(resource_token)
+  end
+
   def customer_funding_source_created_response(customer_token, funding_source_token)
     resource_created_response customer_funding_source_endpoint(customer_token, funding_source_token)
   end
 
+  def customer_documents_endpoint(customer_token)
+    [ customer_endpoint(customer_token), "documents" ].join '/'
+  end
+
   def funding_sources_endpoint
     "funding-sources"
+  end
+
+  def documents_endpoint
+    "documents"
+  end
+
+  def document_endpoint(resource_token)
+    [ documents_endpoint, resource_token ].join '/'
   end
 
   def funding_source_endpoint(funding_source_token)
@@ -104,6 +120,10 @@ class DwollaHelper
 
   def stub_create_transfer_request(params, response)
     stub_post_request transfers_endpoint, params, response
+  end
+
+  def stub_create_customer_document_request(customer_token, params, response)
+    stub_post_request customer_documents_endpoint(customer_token), params, response
   end
 
   def stub_get_request(url, response)
