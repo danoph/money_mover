@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MoneyMover::Dwolla::MicrodepositVerification do
+describe MoneyMover::Dwolla::MicroDepositVerification do
   let(:funding_source_token) { '9481924a-6795-4e7a-b436-a7a48a4141ca' }
 
   describe '#save' do

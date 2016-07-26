@@ -6,10 +6,17 @@ describe MoneyMover::Dwolla::Transfer do
   let(:amount) { 10.0 }
   let(:metadata) {{}}
 
+  #let(:attrs) {{
+    #funding_source_resource_location: funding_source_resource_location,
+    #funding_destination_resource_location: funding_destination_resource_location,
+    #amount: amount,
+    #metadata: metadata
+  #}}
+
   let(:attrs) {{
-    funding_source_resource_location: funding_source_resource_location,
-    funding_destination_resource_location: funding_destination_resource_location,
-    amount: amount,
+    sender_funding_source_token: funding_source_resource_location,
+    destination_funding_source_token: funding_destination_resource_location,
+    transfer_amount: amount,
     metadata: metadata
   }}
 
@@ -18,10 +25,10 @@ describe MoneyMover::Dwolla::Transfer do
   let(:create_params) {{
     _links: {
       destination: {
-        href: funding_source_resource_location
+        href: dwolla_helper.build_dwolla_url("funding-sources/#{funding_source_resource_location}")
       },
       source: {
-        href: funding_destination_resource_location
+        href: dwolla_helper.build_dwolla_url("funding-sources/#{funding_destination_resource_location}")
       }
     },
     amount: {

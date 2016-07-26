@@ -6,5 +6,12 @@ group :development do
   gem 'rake'
   gem 'rspec'
   gem 'webmock'
-  gem 'activemodel', '~> 5.0.0'
+  gem 'shoulda-matchers'
+  gem 'activesupport'
+
+  gem 'activemodel'
+  gem 'faraday'
+  gem 'faraday_middleware'
+
+  gem "rack-test"
 end

@@ -1,12 +1,50 @@
 require 'webmock'
 
-class TestDwollaTokenProvider
+class TestConfigProvider
   def access_token
-    "X7JyEzy6F85MeDZERFE2CgiLbm9TXIbQNmr16cCfI6y1CtPrak"
+    "X7JyEzy6F85MeDZERFE2cgiLbm9TXIbQNmr16cCfI6y1CtPrak"
   end
 
   def refresh_token
-    "karalksjdfkasjfkweriuert"
+    "Qlj3SFaIGPJmeFrPEJsPI6smKwdXLsPYAYi83lXkqeb8q0MX1P"
+  end
+
+  def application_token
+    "SF8Vxx6H644lekdVKAAHFnqRCFy8WGqltzitpii6w2MVaZp1Nw"
+  end
+
+  def environment
+    :sandbox
+  end
+
+  def api_key
+    "IkvGNVjFLJTBZeWsqFdHMppbuG2g4kTY1WFxz1HUjusxZ71eMz"
+  end
+
+  def api_secret_key
+    "lB9gPl6xyqLIiKF9al1K8e2sXhNyvjkrsTMUFKs176oXsSo2K9"
+  end
+
+  def webhook_secret_key
+    "20f2f952eb91071ab655d5522d7d246177b3fbbe8fe878df80be36a0fa2c4c6f7d1e981038d55aae40e5325d6377b0b4be78375c6566c74a7c9fdba7008daf58"
+  end
+
+  def webhook_callback_url
+    "http://buildpay.sprouti.com/ach/events"
+  end
+
+  def account_token_provider
+    TestDwollaTokenProvider
+  end
+end
+
+class TestDwollaTokenProvider
+  def access_token
+    "X7JyEzy6F85MeDZERFE2cgiLbm9TXIbQNmr16cCfI6y1CtPrak"
+  end
+
+  def refresh_token
+    "Qlj3SFaIGPJmeFrPEJsPI6smKwdXLsPYAYi83lXkqeb8q0MX1P"
   end
 end
 
@@ -14,15 +52,43 @@ class DwollaHelper
   include WebMock::API
 
   def initialize
-    @token_provider = MoneyMover::Dwolla.account_token_provider = TestDwollaTokenProvider.new
+    @config_provider = TestConfigProvider.new
   end
 
   def access_token
-    @token_provider.access_token
+    @config_provider.access_token
+  end
+
+  def refresh_token
+    @config_provider.refresh_token
+  end
+
+  def application_token
+    @config_provider.application_token
+  end
+
+  def api_key
+    @config_provider.api_key
+  end
+
+  def api_secret_key
+    @config_provider.api_secret_key
+  end
+
+  def webhook_secret_key
+    @config_provider.webhook_secret_key
+  end
+
+  def webhook_callback_url
+    @config_provider.webhook_callback_url
+  end
+
+  def api_url
+    "https://api-uat.dwolla.com"
   end
 
   def api_endpoint
-    "https://api-uat.dwolla.com"
+    api_url
   end
 
   def customers_endpoint
@@ -44,9 +110,10 @@ class DwollaHelper
   def request_headers
     {
       'Accept'=>'application/vnd.dwolla.v1.hal+json',
-      'Accept-Encoding'=>'gzip, deflate',
+      #'Accept-Encoding'=>'gzip, deflate',
+      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
       'Authorization'=>"Bearer #{access_token}",
-      'Content-Type'=>'application/json',
+      #'Content-Type'=>'application/json',
     }
   end
 
@@ -150,5 +217,114 @@ class DwollaHelper
 
   def build_dwolla_url(url)
     [ api_endpoint, url ].join '/'
+  end
+
+  # taken from ach_helper
+
+  def get_token_url
+    "https://uat.dwolla.com/oauth/v2/token"
+  end
+
+  def error_response(body_json = {})
+    {
+      status: 400,
+      body: body_json.to_json,
+      headers: {"Content-Type" => "application/json"}
+    }
+  end
+
+  def stub_get_token_request(token_response = nil)
+    token_response ||= {
+      "access_token": application_token,
+      "token_type": "bearer",
+      "expires_in": 3600,
+      "scope": "AccountInfoFull|ManageAccount|Contacts|Transactions|Balance|Send|Request|Funding"
+    }
+
+    req_body = {
+      grant_type: "client_credentials",
+      client_id: api_key,
+      client_secret: api_secret_key
+    }
+
+    stub_request(:post, get_token_url).
+    with(:body => req_body).
+      to_return(status: 200, body: token_response.to_json, headers: {"Content-Type" => "application/json"})
+  end
+
+  def stub_refresh_token_request(token_response)
+    req_body = {
+      grant_type: "refresh_token",
+      client_id: api_key,
+      client_secret: api_secret_key,
+      refresh_token: refresh_token
+    }
+
+    req_headers = {
+      'Accept'=>'application/vnd.dwolla.v1.hal+json',
+      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'User-Agent'=>'Faraday v0.9.2'
+    }
+
+    stub_request(:post, get_token_url).with(body: req_body, headers: req_headers).
+      to_return(:status => 200, :body => token_response.to_json, headers: {"Content-Type" => "application/json"})
+  end
+
+  def webhook_subscriptions_url
+    "#{api_url}/webhook-subscriptions"
+  end
+
+  def webhook_subscription_url(webhook_token)
+    "#{api_url}/webhook-subscriptions/#{webhook_token}"
+  end
+
+  def stub_get_webhook_subscriptions_request(stub_response)
+    stub_request(:get, webhook_subscriptions_url).
+      with(headers: dwolla_application_request_headers).
+      to_return(body: stub_response.to_json, headers: {"Content-Type" => "application/json"})
+  end
+
+  def stub_create_webhook_subscription_request(stub_params, stub_response)
+    stub_request(:post, webhook_subscriptions_url).
+      with(headers: dwolla_application_request_headers, body: stub_params).
+    to_return(stub_response)
+  end
+
+  def stub_delete_webhook_subscription_request(subscription_id, stub_response)
+    stub_request(:delete, webhook_subscription_url(subscription_id)).
+      with(headers: dwolla_application_request_headers).
+    to_return(stub_response)
+  end
+
+  def dwolla_application_request_headers
+    {
+      'Accept'=>'application/vnd.dwolla.v1.hal+json',
+      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'Authorization'=>"Bearer #{application_token}",
+      'User-Agent'=>'Faraday v0.9.2'
+    }
+  end
+
+  def create_webhook_success_response(webhook_token)
+    resource_created_response webhook_subscription_url(webhook_token)
+  end
+
+  def resource_deleted_response
+    {
+      status: 200,
+      body: ""
+    }
+  end
+
+  def create_customer_success_response(customer_token)
+    resource_created_response customer_url(customer_token)
+  end
+
+  def customers_url
+    "#{api_url}/customers"
+  end
+
+  def customer_url(customer_token)
+    "#{customers_url}/#{customer_token}"
   end
 end

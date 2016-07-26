@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MoneyMover::Dwolla::MicrodepositInitiation do
+describe MoneyMover::Dwolla::MicroDepositInitiation do
   let(:funding_source_token) { '9481924a-6795-4e7a-b436-a7a48a4141ca' }
 
   let(:attrs) {{
@@ -32,7 +32,10 @@ describe MoneyMover::Dwolla::MicrodepositInitiation do
     context 'fail' do
       let(:create_response) {{
         status: 400,
-        body: error_response.to_json
+        body: error_response.to_json,
+        headers: {
+          'Content-Type' => 'application/json'
+        }
       }}
 
       let(:error_response) {{

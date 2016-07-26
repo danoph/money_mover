@@ -7,14 +7,14 @@ describe MoneyMover::Dwolla::FundingSource do
   let(:accountNumber) { '9393' }
 
   let(:attrs) {{
-    customer_id: customer_token,
+    #customer_id: customer_token,
     name: name,
     type: type,
     routingNumber: routingNumber,
     accountNumber: accountNumber
   }}
 
-  subject { described_class.new(attrs) }
+  subject { described_class.new(customer_token, attrs) }
 
   let(:customer_token) { '9481924a-6795-4e7a-b436-a7a48a4141ca' }
   let(:funding_source_token) { 'FC451A7A-AE30-4404-AB95-E3553FCD733F' }

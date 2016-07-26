@@ -1,25 +1,20 @@
 require 'spec_helper'
 
 describe MoneyMover::Dwolla::Config do
-  let(:api_endpoint) { double 'api endpoint' }
+  let(:webhook_secret_key) { double 'webhook secret key' }
+  let(:webhook_callback_url) { double 'webhook callback url' }
+  let(:api_key) { double 'api key' }
+  let(:api_secret_key) { double 'api secret key' }
+  let(:environment) { double 'environment' }
+  let(:ach_provider_config) { double 'configatron ach provider store', webhook_secret_key: webhook_secret_key, webhook_callback_url: webhook_callback_url, api_key: api_key, api_secret_key: api_secret_key, environment: environment }
 
-  let(:attrs) {{
-    api_endpoint: api_endpoint
-  }}
+  subject { described_class.new(ach_provider_config) }
 
-  subject { described_class.new(attrs) }
-
-  describe '#api_endpoint' do
-    it 'returns api endpoint' do
-      expect(subject.api_endpoint).to eq(api_endpoint)
-    end
-
-    context 'not setting api endpoint' do
-      let(:attrs) {{}}
-
-      it 'returns api endpoint' do
-        expect(subject.api_endpoint).to eq("https://api-uat.dwolla.com")
-      end
-    end
+  it 'returns expected values' do
+    expect(subject.webhook_secret_key).to eq(webhook_secret_key)
+    expect(subject.webhook_callback_url).to eq(webhook_callback_url)
+    expect(subject.api_key).to eq(api_key)
+    expect(subject.api_secret_key).to eq(api_secret_key)
+    expect(subject.environment).to eq(environment)
   end
 end

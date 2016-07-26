@@ -3,19 +3,21 @@ require 'spec_helper'
 describe MoneyMover::Dwolla::Document do
   let(:customer_id) { 'customer-id' }
   let(:file) { File.expand_path('../../../../../support/fixtures/sample.jpg', __FILE__) }
+  let(:file_fixture) { Rack::Test::UploadedFile.new(file, 'image/jpeg') }
   let(:documentType) { 'other' }
 
   let(:attrs) {{
     customer_id: customer_id,
     documentType: 'other',
-    file: file
+    file: file_fixture
   }}
 
   subject { described_class.new(attrs) }
 
   let(:create_params) {{
     documentType: documentType,
-    file: File.new(file, 'rb')
+    #file: File.new(file, 'rb')
+    #file: Faraday::UploadIO.new(file)
   }}
 
   let(:resource_token) { 'some-token' }

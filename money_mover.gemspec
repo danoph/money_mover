@@ -15,8 +15,10 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/money_mover'
   s.license     = 'MIT'
 
-  s.add_dependency('rest-client', '>= 2.0.0', '< 3.0')
+  s.add_dependency('faraday', '~> 0.9', '>= 0.9.0')
+  s.add_dependency('faraday_middleware', '~> 0.9', '>= 0.9.0')
   s.add_dependency('activemodel', '~> 4.2', '>= 4.2.6')
+  s.add_dependency('activesupport', '~> 4.2', '>= 4.2.6')
 
   s.files = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- spec/*`.split("\n")

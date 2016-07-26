@@ -1,6 +1,6 @@
 module MoneyMover
   module Dwolla
-    class MicrodepositVerification < ApiResource
+    class MicroDepositVerification < ApiResource
       attr_accessor :funding_source_id, :amount1, :amount2
 
       validates_presence_of :funding_source_id, :amount1, :amount2
@@ -10,11 +10,11 @@ module MoneyMover
 
       private
 
-      def endpoint
-        [ "funding-sources", funding_source_id, "micro-deposits" ].join '/'
+      def create_endpoint
+        "/funding-sources/#{funding_source_id}/micro-deposits"
       end
 
-      def request_params
+      def create_params
         {
           amount1: {
             value: amount1,
