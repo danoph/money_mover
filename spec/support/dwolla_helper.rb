@@ -327,4 +327,21 @@ class DwollaHelper
   def customer_url(customer_token)
     "#{customers_url}/#{customer_token}"
   end
+
+  def body_signature(body)
+    OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), webhook_secret_key, body)
+  end
+
+  def header_signature(hash)
+    body_signature Rack::Utils.build_nested_query(hash)
+  end
+
+  def webhook_signed_header(hash)
+    webhook_header header_signature(hash)
+  end
+
+  def webhook_header(value = 'invalid')
+    #{ 'X-Request-Signature-Sha-256' => value } # real value from rack
+    { 'HTTP_X_REQUEST_SIGNATURE_SHA_256' => value }
+  end
 end

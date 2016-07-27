@@ -4,10 +4,10 @@ module MoneyMover
       include ActiveModel::Model
       validate :valid_request_signature
 
-      def initialize(ach_webhook_secret_key, request_body, request_headers)
-        @ach_webhook_secret_key = ach_webhook_secret_key
+      def initialize(request_body, request_headers, ach_config = Config.new)
         @request_body = request_body
         @ach_request_signature = request_headers['HTTP_X_REQUEST_SIGNATURE_SHA_256']
+        @ach_webhook_secret_key = ach_config.webhook_secret_key
       end
 
       def valid_request_signature

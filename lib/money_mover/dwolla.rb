@@ -30,7 +30,8 @@ require 'money_mover/dwolla/models/unverified_customer'
 require 'money_mover/dwolla/models/unverified_business_customer'
 require 'money_mover/dwolla/models/verified_business_customer'
 
-# application stuff
+# other stuff
+require 'money_mover/dwolla/request_signature_validator'
 require 'money_mover/dwolla/models/webhook_subscription'
 
 module MoneyMover
