@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Daniel Errante"]
   s.email       = 'danoph@gmail.com'
   s.files       = ["lib/money_mover.rb"]
-  s.homepage    = 'http://rubygems.org/gems/money_mover'
+  s.homepage    = 'https://github.com/danoph/money_mover'
   s.license     = 'MIT'
 
   s.add_dependency('faraday', '~> 0.9', '>= 0.9.0')
