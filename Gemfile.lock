@@ -1,11 +1,12 @@
 PATH
   remote: .
   specs:
-    money_mover (0.0.1)
-      activemodel (~> 4.2, >= 4.2.6)
-      activesupport (~> 4.2, >= 4.2.6)
-      faraday (~> 0.9, >= 0.9.0)
-      faraday_middleware (~> 0.9, >= 0.9.0)
+    money_mover (0.0.3)
+      activemodel (>= 4.0, < 5.1)
+      activesupport (>= 4.0, < 5.1)
+      faraday (~> 0.9)
+      faraday_middleware (~> 0.9)
+      rack (>= 1.6, < 2.1)
 
 GEM
   remote: https://rubygems.org/
@@ -65,16 +66,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activemodel
-  activesupport
-  faraday
-  faraday_middleware
   money_mover!
-  rack-test
-  rake
-  rspec
-  shoulda-matchers
-  webmock
+  rack-test (~> 0.6)
+  rake (~> 11.2)
+  rspec (~> 3.5)
+  shoulda-matchers (~> 3.1)
+  webmock (~> 2.1)
 
 BUNDLED WITH
    1.11.2

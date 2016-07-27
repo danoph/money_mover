@@ -15,10 +15,17 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/danoph/money_mover'
   s.license     = 'MIT'
 
-  s.add_dependency('faraday', '~> 0.9', '>= 0.9.0')
-  s.add_dependency('faraday_middleware', '~> 0.9', '>= 0.9.0')
-  s.add_dependency('activemodel', '~> 4.2', '>= 4.2.6')
-  s.add_dependency('activesupport', '~> 4.2', '>= 4.2.6')
+  s.add_dependency 'faraday', '~> 0.9'
+  s.add_dependency 'faraday_middleware', '~> 0.9'
+  s.add_dependency 'activemodel', '>= 4.0', '< 5.1'
+  s.add_dependency 'activesupport', '>= 4.0', '< 5.1'
+  s.add_dependency 'rack', '>= 1.6', '< 2.1'
+
+  s.add_development_dependency 'rake', '~> 11.2'
+  s.add_development_dependency 'rspec', '~> 3.5'
+  s.add_development_dependency 'webmock', '~> 2.1'
+  s.add_development_dependency 'shoulda-matchers', '~> 3.1'
+  s.add_development_dependency 'rack-test', '~> 0.6'
 
   s.files = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- spec/*`.split("\n")
