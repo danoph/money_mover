@@ -1,14 +1,6 @@
 module MoneyMover
   module Dwolla
-    class ReceiveOnlyBusinessCustomer < Customer
-      def initialize(attrs = {})
-        attrs[:type] = 'receive-only'
-        super attrs
-      end
-      private
-
-      validates_presence_of :firstName, :lastName, :email
-
+    class ReceiveOnlyBusinessCustomer < ReceiveOnlyCustomer
       def create_params
         create_attrs = {
           firstName: firstName,
