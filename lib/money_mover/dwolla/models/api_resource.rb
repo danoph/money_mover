@@ -38,7 +38,7 @@ module MoneyMover
           @resource_location = response.resource_location
           @id = response.resource_id
         else
-          populate_errors_from_response(response)
+          add_errors_from response
         end
 
         errors.empty?
@@ -47,15 +47,17 @@ module MoneyMover
       def destroy
         response = @client.delete resource_endpoint
 
-        populate_errors_from_response(response) unless response.success?
+        add_errors_from response unless response.success?
 
         errors.empty?
       end
 
       private
 
-      def populate_errors_from_response(response)
-        response.errors.each {|key, message| errors.add key, message }
+      def add_errors_from(model)
+        model.errors.each do |key, messages|
+          errors.add key, messages
+        end
       end
 
       def resource_endpoint

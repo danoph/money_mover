@@ -15,7 +15,6 @@ module MoneyMover
           lastName: lastName,
           email: email,
           type: 'receive-only',
-          ipAddress: ipAddress
         }
 
         create_attrs[:ipAddress] = ipAddress if ipAddress.present?
