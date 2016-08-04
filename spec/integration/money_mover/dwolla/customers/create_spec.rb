@@ -21,7 +21,8 @@ describe MoneyMover::Dwolla::UnverifiedCustomer do
     firstName: firstName,
     lastName: lastName,
     email: email,
-    ipAddress: ipAddress
+    ipAddress: ipAddress,
+    type: 'unverified'
   }}
 
   before do

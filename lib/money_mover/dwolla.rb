@@ -17,7 +17,7 @@ require 'money_mover/dwolla/models/api_resource'
 # models
 require 'money_mover/dwolla/models/account_funding_source'
 require 'money_mover/dwolla/models/document'
-require 'money_mover/dwolla/models/funding_source'
+require 'money_mover/dwolla/models/customer_funding_source'
 require 'money_mover/dwolla/models/micro_deposit_initiation'
 require 'money_mover/dwolla/models/micro_deposit_verification'
 require 'money_mover/dwolla/models/transfer'

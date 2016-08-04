@@ -13,10 +13,7 @@ module MoneyMover
         :businessName,
         :ein
 
-      def initialize(attrs = {})
-        attrs[:type] = 'business'
-        super attrs
-      end
+      validates_inclusion_of :businessType, in: COMPANY_TYPES
 
       private
 
@@ -39,7 +36,7 @@ module MoneyMover
           ein: ein,
           doingBusinessAs: doingBusinessAs,
           website: website,
-          type: type,
+          type: 'business',
         }
 
         # hack to fix bug on dwolla's side with funding sources being removed if no dba is sent

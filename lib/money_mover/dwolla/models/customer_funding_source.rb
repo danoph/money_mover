@@ -1,6 +1,6 @@
 module MoneyMover
   module Dwolla
-    class FundingSource < ApiResource
+    class CustomerFundingSource < ApiResource
       attr_accessor :name, :type, :routingNumber, :accountNumber
 
       validates_presence_of :name, :type, :routingNumber, :accountNumber

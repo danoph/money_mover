@@ -1,6 +1,7 @@
 module MoneyMover
   module Dwolla
     class Customer < ApiResource
+      COMPANY_TYPES = %w( soleproprietorship llc partnership corporation )
 
       attr_accessor :firstName,
         :lastName,
@@ -23,8 +24,6 @@ module MoneyMover
         :ipAddress,
         :status,
         :created
-
-      validates_presence_of :type
 
       def self.find(id)
         client = AccountClient.new

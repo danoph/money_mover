@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MoneyMover::Dwolla::FundingSource do
+describe MoneyMover::Dwolla::CustomerFundingSource do
   let(:customer_id) { double 'customer id' }
 
   let(:name) { 'some name' }

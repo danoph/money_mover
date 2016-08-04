@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MoneyMover::Dwolla::FundingSource do
+describe MoneyMover::Dwolla::CustomerFundingSource do
   let(:name) { 'my checking account' }
   let(:type) { 'checking' }
   let(:routingNumber) { '222222226' }
