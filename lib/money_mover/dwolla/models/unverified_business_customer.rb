@@ -25,12 +25,12 @@ module MoneyMover
           ein: ein,
           doingBusinessAs: doingBusinessAs,
           website: website,
-          type: type,
           ipAddress: ipAddress
         }
 
         # hack to fix bug on dwolla's side with funding sources being removed if no dba is sent
         create_attrs[:doingBusinessAs] = businessName unless doingBusinessAs.present?
+        create_attrs[:type] = 'unverified'
 
         create_attrs.compact
       end
