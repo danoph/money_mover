@@ -13,7 +13,7 @@ module MoneyMover
         :businessName,
         :ein
 
-      validates_inclusion_of :businessType, in: COMPANY_TYPES
+      #validates_inclusion_of :businessType, in: COMPANY_TYPES
 
       private
 

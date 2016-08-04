@@ -10,7 +10,7 @@ module MoneyMover
 
         create_attrs[:businessName] = businessName if businessName.present?
         create_attrs[:ipAddress] = ipAddress if ipAddress.present?
-        create_attrs[:type] = type
+        create_attrs[:type] = 'receive-only'
 
         create_attrs
       end

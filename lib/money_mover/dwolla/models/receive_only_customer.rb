@@ -3,10 +3,6 @@ module MoneyMover
     class ReceiveOnlyCustomer < Customer
       validates_presence_of :firstName, :lastName, :email
 
-      def initialize(attrs = {})
-        super attrs.merge(type: 'receive-only')
-      end
-
       private
 
       def create_params

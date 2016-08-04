@@ -2,12 +2,7 @@ module MoneyMover
   module Dwolla
     class UnverifiedBusinessCustomer < Customer
       validates_presence_of :businessName
-      validates_inclusion_of :businessType, in: COMPANY_TYPES
-
-      def initialize(attrs = {})
-        attrs[:type] = 'unverified'
-        super attrs
-      end
+      #validates_inclusion_of :businessType, in: COMPANY_TYPES
 
       private
 
