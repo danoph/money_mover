@@ -27,14 +27,44 @@ describe MoneyMover::Dwolla::CustomerFundingSource do
   }}
 
   before do
-    dwolla_helper.stub_create_customer_funding_source_request customer_token, create_params, dwolla_helper.customer_funding_source_created_response(customer_token, funding_source_token)
+    dwolla_helper.stub_create_customer_funding_source_request customer_token, create_params, create_response
   end
 
   describe '#save' do
-    it 'creates new customer funding source in dwolla' do
-      expect(subject.save).to eq(true)
-      expect(subject.id).to eq(funding_source_token)
-      expect(subject.resource_location).to eq(dwolla_helper.customer_funding_source_endpoint(customer_token, funding_source_token))
+    context 'valid' do
+      let(:create_response) { dwolla_helper.customer_funding_source_created_response customer_token, funding_source_token }
+
+      it 'creates new customer funding source in dwolla' do
+        expect(subject.save).to eq(true)
+        expect(subject.id).to eq(funding_source_token)
+        expect(subject.resource_location).to eq(dwolla_helper.customer_funding_source_endpoint(customer_token, funding_source_token))
+      end
+    end
+
+    context 'invalid' do
+      let(:create_response) do
+        dwolla_helper.error_response(
+          code: "ValidationError",
+          message: "Validation error(s) present. See embedded errors list for more details.",
+          _embedded: {
+            errors: [
+              {
+                code: "Invalid",
+                message: "Invalid parameter.",
+                path: "/routingNumber"
+              }
+            ]
+          }
+        )
+      end
+
+      it 'returns false and sets errors' do
+        expect(subject.save).to eq(false)
+        expect(subject.errors[:routingNumber]).to eq(['Invalid parameter.'])
+
+        expect(subject.id).to be_nil
+        expect(subject.resource_location).to be_nil
+      end
     end
   end
 end
