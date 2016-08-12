@@ -5,9 +5,10 @@ module MoneyMover
 
       attr_accessor :id, :_links, :_embedded
 
-      attr_reader :resource_location
+      attr_reader :resource_location, :attrs
 
       def initialize(attrs = {}, client = AccountClient.new)
+        @attrs = attrs
         @id = attrs[:id]
         @resource_location = attrs[:resource_location]
         @_links = attrs[:_links]
