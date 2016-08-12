@@ -40,6 +40,17 @@ module MoneyMover
 
       private
 
+      # dwolla doesnt accept urls without a scheme
+      def website_with_protocol
+        return nil unless website.present?
+
+        if website =~ %r{^https?://}
+          website
+        else
+          "http://#{website}"
+        end
+      end
+
       def self.fetch_endpoint(id)
         "/customers/#{id}"
       end

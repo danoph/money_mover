@@ -24,7 +24,7 @@ module MoneyMover
           businessName: businessName,
           ein: ein,
           doingBusinessAs: doingBusinessAs,
-          website: website,
+          website: website_with_protocol,
           ipAddress: ipAddress
         }
 

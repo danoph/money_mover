@@ -17,7 +17,7 @@ describe MoneyMover::Dwolla::VerifiedBusinessCustomer do
   let(:businessName) { double 'business name' }
   let(:ein) { double 'ein' }
   let(:doingBusinessAs) { double 'dba' }
-  let(:website) { double 'website' }
+  let(:website) { 'www.buildpay.co' }
   let(:ipAddress) { double 'ip address' }
 
   # TODO: add test for not being able to set type, status, created, etc. directly...
@@ -65,10 +65,12 @@ describe MoneyMover::Dwolla::VerifiedBusinessCustomer do
       businessName: businessName,
       ein: ein,
       doingBusinessAs: doingBusinessAs,
-      website: website,
+      website: website_with_protocol,
       ipAddress: ipAddress,
       type: 'business'
     }}
+
+    let(:website_with_protocol) { "http://#{website}" }
 
     let(:dwolla_response) { double 'dwolla response', success?: success?, resource_id: resource_id, resource_location: resource_location, errors: dwolla_errors }
     let(:resource_id) { double 'resource id' }
@@ -179,6 +181,13 @@ describe MoneyMover::Dwolla::VerifiedBusinessCustomer do
           doingBusinessAs: businessName,
           type: 'business'
         }}
+
+        it_behaves_like "resource created successfully"
+      end
+
+      context 'using https for website protocol' do
+        let(:website) { 'https://something.com' }
+        let(:website_with_protocol) { 'https://something.com' }
 
         it_behaves_like "resource created successfully"
       end

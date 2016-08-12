@@ -35,9 +35,9 @@ module MoneyMover
           businessName: businessName,
           ein: ein,
           doingBusinessAs: doingBusinessAs,
-          website: website,
-          type: 'business',
-          ipAddress: ipAddress
+          website: website_with_protocol,
+          ipAddress: ipAddress,
+          type: 'business'
         }
 
         # hack to fix bug on dwolla's side with funding sources being removed if no dba is sent
