@@ -37,13 +37,13 @@ module MoneyMover
           doingBusinessAs: doingBusinessAs,
           website: website,
           type: 'business',
+          ipAddress: ipAddress
         }
 
         # hack to fix bug on dwolla's side with funding sources being removed if no dba is sent
         create_attrs[:doingBusinessAs] = businessName unless doingBusinessAs.present?
-        create_attrs[:ipAddress] = ipAddress if ipAddress.present?
 
-        create_attrs
+        create_attrs.reject{|_key, val| !val.present? }
       end
     end
   end

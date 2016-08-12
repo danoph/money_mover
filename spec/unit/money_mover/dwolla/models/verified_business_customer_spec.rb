@@ -84,15 +84,103 @@ describe MoneyMover::Dwolla::VerifiedBusinessCustomer do
       allow(account_client).to receive(:post).with(create_endpoint, create_customer_params) { dwolla_response }
     end
 
-    context 'success' do
-      let(:success?) { true }
-
-      it 'creates new customer in dwolla' do
+    shared_examples 'resource created successfully' do
+      it 'returns true' do
         expect(subject.save).to eq(true)
         expect(subject.errors.count).to eq(0)
 
         expect(subject.id).to eq(resource_id)
         expect(subject.resource_location).to eq(resource_location)
+      end
+    end
+
+    context 'success' do
+      let(:success?) { true }
+
+      it_behaves_like "resource created successfully"
+
+      context 'only required fields sent' do
+        let(:attrs) {{
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          address1: address1,
+          city: city,
+          state: state,
+          postalCode: postalCode,
+          dateOfBirth: dateOfBirth,
+          ssn: ssn,
+          phone: phone,
+          businessClassification: businessClassification,
+          businessType: businessType,
+          businessName: businessName,
+          ein: ein
+        }}
+
+        let(:create_customer_params) {{
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          address1: address1,
+          city: city,
+          state: state,
+          postalCode: postalCode,
+          dateOfBirth: dateOfBirth,
+          ssn: ssn,
+          phone: phone,
+          businessClassification: businessClassification,
+          businessType: businessType,
+          businessName: businessName,
+          ein: ein,
+          doingBusinessAs: businessName,
+          type: 'business'
+        }}
+
+        it_behaves_like "resource created successfully"
+      end
+
+      context 'sending empty strings for non-required fields' do
+        let(:attrs) {{
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          address1: address1,
+          address2: "",
+          city: city,
+          state: state,
+          postalCode: postalCode,
+          dateOfBirth: dateOfBirth,
+          ssn: ssn,
+          phone: phone,
+          businessClassification: businessClassification,
+          businessType: businessType,
+          businessName: businessName,
+          ein: ein,
+          doingBusinessAs: "",
+          website: "",
+          ipAddress: ""
+        }}
+
+        let(:create_customer_params) {{
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          address1: address1,
+          city: city,
+          state: state,
+          postalCode: postalCode,
+          dateOfBirth: dateOfBirth,
+          ssn: ssn,
+          phone: phone,
+          businessClassification: businessClassification,
+          businessType: businessType,
+          businessName: businessName,
+          ein: ein,
+          doingBusinessAs: businessName,
+          type: 'business'
+        }}
+
+        it_behaves_like "resource created successfully"
       end
     end
 
