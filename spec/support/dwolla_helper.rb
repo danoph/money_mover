@@ -34,7 +34,7 @@ class TestConfigProvider
   end
 
   def account_token_provider
-    TestDwollaTokenProvider
+    TestDwollaTokenProvider.new
   end
 end
 
@@ -185,6 +185,10 @@ class DwollaHelper
 
   def stub_create_customer_request(params, response)
     stub_post_request customers_endpoint, params, response
+  end
+
+  def stub_update_customer_request(customer_token, params, response)
+    stub_post_request customer_endpoint(customer_token), params, response
   end
 
   def stub_create_customer_funding_source_request(customer_token, params, response)

@@ -38,6 +38,26 @@ module MoneyMover
         end
       end
 
+      def save
+        return false unless valid?
+
+        if @id
+          response = @client.post self.class.fetch_endpoint(@id), create_params
+          add_errors_from response unless response.success?
+        else
+          response = @client.post create_endpoint, create_params
+
+          if response.success?
+            @resource_location = response.resource_location
+            @id = response.resource_id
+          else
+            add_errors_from response
+          end
+        end
+
+        errors.empty?
+      end
+
       private
 
       # dwolla doesnt accept urls without a scheme
