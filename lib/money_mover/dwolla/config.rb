@@ -26,7 +26,7 @@ module MoneyMover
       end
 
       def account_token_provider
-        @config.account_token_provider.new
+        @config.account_token_provider
       end
     end
   end
