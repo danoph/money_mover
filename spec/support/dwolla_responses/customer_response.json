@@ -1,0 +1,37 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://api-uat.dwolla.com/customers/7bc7e791-47f7-457d-b15d-ab4d92d46343",
+      "type": "customer"
+    },
+    "edit": {
+      "href": "https://api-uat.dwolla.com/customers/7bc7e791-47f7-457d-b15d-ab4d92d46343",
+      "type": "customer"
+    },
+    "funding-sources": {
+      "href": "https://api-uat.dwolla.com/customers/7bc7e791-47f7-457d-b15d-ab4d92d46343/funding-sources",
+      "type": "funding-source"
+    },
+    "retry-verification": {
+      "href": "https://api-uat.dwolla.com/customers/7bc7e791-47f7-457d-b15d-ab4d92d46343",
+      "type": "customer"
+    },
+    "transfers": {
+      "href": "https://api-uat.dwolla.com/customers/7bc7e791-47f7-457d-b15d-ab4d92d46343/transfers",
+      "type": "transfer"
+    }
+  },
+  "id": "7bc7e791-47f7-457d-b15d-ab4d92d46343",
+  "firstName": "retry",
+  "lastName": "Retrya2 Last Name",
+  "email": "email@example.com",
+  "type": "business",
+  "status": "retry",
+  "created": "2016-09-06T16:05:23.393Z",
+  "address1": "123 Anywhere St.",
+  "city": "St. Louis",
+  "state": "MO",
+  "postalCode": "63103",
+  "businessName": "office Retry 2",
+  "doingBusinessAs": "office Retry 2"
+}
