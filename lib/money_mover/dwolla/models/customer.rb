@@ -26,7 +26,7 @@ module MoneyMover
         :created
 
       def self.find(id)
-        client = AccountClient.new
+        client = ApplicationClient.new
 
         response = client.get fetch_endpoint(id)
 

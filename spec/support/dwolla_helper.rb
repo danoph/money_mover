@@ -5,14 +5,6 @@ class TestConfigProvider
     "X7JyEzy6F85MeDZERFE2cgiLbm9TXIbQNmr16cCfI6y1CtPrak"
   end
 
-  def refresh_token
-    "Qlj3SFaIGPJmeFrPEJsPI6smKwdXLsPYAYi83lXkqeb8q0MX1P"
-  end
-
-  def application_token
-    "SF8Vxx6H644lekdVKAAHFnqRCFy8WGqltzitpii6w2MVaZp1Nw"
-  end
-
   def environment
     :sandbox
   end
@@ -42,10 +34,6 @@ class TestDwollaTokenProvider
   def access_token
     "X7JyEzy6F85MeDZERFE2cgiLbm9TXIbQNmr16cCfI6y1CtPrak"
   end
-
-  def refresh_token
-    "Qlj3SFaIGPJmeFrPEJsPI6smKwdXLsPYAYi83lXkqeb8q0MX1P"
-  end
 end
 
 class DwollaHelper
@@ -57,14 +45,6 @@ class DwollaHelper
 
   def access_token
     @config_provider.access_token
-  end
-
-  def refresh_token
-    @config_provider.refresh_token
-  end
-
-  def application_token
-    @config_provider.application_token
   end
 
   def api_key
@@ -237,31 +217,11 @@ class DwollaHelper
     }
   end
 
-  def stub_get_token_request(token_response = nil)
-    token_response ||= {
-      "access_token": application_token,
-      "token_type": "bearer",
-      "expires_in": 3600,
-      "scope": "AccountInfoFull|ManageAccount|Contacts|Transactions|Balance|Send|Request|Funding"
-    }
-
+  def stub_refresh_token_request(token_response)
     req_body = {
       grant_type: "client_credentials",
       client_id: api_key,
-      client_secret: api_secret_key
-    }
-
-    stub_request(:post, get_token_url).
-    with(:body => req_body).
-      to_return(status: 200, body: token_response.to_json, headers: {"Content-Type" => "application/json"})
-  end
-
-  def stub_refresh_token_request(token_response)
-    req_body = {
-      grant_type: "refresh_token",
-      client_id: api_key,
       client_secret: api_secret_key,
-      refresh_token: refresh_token
     }
 
     req_headers = {
@@ -284,29 +244,20 @@ class DwollaHelper
 
   def stub_get_webhook_subscriptions_request(stub_response)
     stub_request(:get, webhook_subscriptions_url).
-      with(headers: dwolla_application_request_headers).
+      with(headers: request_headers).
       to_return(body: stub_response.to_json, headers: {"Content-Type" => "application/json"})
   end
 
   def stub_create_webhook_subscription_request(stub_params, stub_response)
     stub_request(:post, webhook_subscriptions_url).
-      with(headers: dwolla_application_request_headers, body: stub_params).
+      with(headers: request_headers, body: stub_params).
     to_return(stub_response)
   end
 
   def stub_delete_webhook_subscription_request(subscription_id, stub_response)
     stub_request(:delete, webhook_subscription_url(subscription_id)).
-      with(headers: dwolla_application_request_headers).
+      with(headers: request_headers).
     to_return(stub_response)
-  end
-
-  def dwolla_application_request_headers
-    {
-      'Accept'=>'application/vnd.dwolla.v1.hal+json',
-      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-      'Authorization'=>"Bearer #{application_token}",
-      'User-Agent'=>"Faraday v#{Faraday::VERSION}"
-    }
   end
 
   def create_webhook_success_response(webhook_token)

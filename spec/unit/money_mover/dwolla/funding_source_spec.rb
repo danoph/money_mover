@@ -26,7 +26,7 @@ describe MoneyMover::Dwolla::CustomerFundingSource do
   let(:resource_id) { double 'resource id' }
 
   before do
-    allow(MoneyMover::Dwolla::AccountClient).to receive(:new) { dwolla_client }
+    allow(MoneyMover::Dwolla::ApplicationClient).to receive(:new) { dwolla_client }
   end
 
   it { should validate_presence_of(:name) }

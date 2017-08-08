@@ -8,7 +8,7 @@ module MoneyMover
       end
 
       def self.all(account_id)
-        client = AccountClient.new
+        client = ApplicationClient.new
 
         response = client.get fetch_endpoint(account_id)
         response.body[:_embedded][:"funding-sources"].map {|source| new(source) }

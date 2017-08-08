@@ -115,7 +115,6 @@ describe MoneyMover::Dwolla::WebhookSubscription do
     subject { described_class }
 
     before do
-      dwolla_helper.stub_get_token_request
       dwolla_helper.stub_get_webhook_subscriptions_request(webhooks_response)
     end
 
@@ -145,7 +144,6 @@ describe MoneyMover::Dwolla::WebhookSubscription do
     subject { described_class.new(url: callback_url, secret: webhook_secret_key) }
 
     before do
-      dwolla_helper.stub_get_token_request
       dwolla_helper.stub_create_webhook_subscription_request(create_params, create_response)
     end
 
@@ -175,7 +173,6 @@ describe MoneyMover::Dwolla::WebhookSubscription do
     subject { described_class.new(id: subscription_id) }
 
     before do
-      dwolla_helper.stub_get_token_request
       dwolla_helper.stub_delete_webhook_subscription_request(subscription_id, delete_response)
     end
 

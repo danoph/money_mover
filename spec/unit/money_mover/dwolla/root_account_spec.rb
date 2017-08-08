@@ -69,7 +69,7 @@ describe MoneyMover::Dwolla::RootAccount do
   end
 
   before do
-    allow(MoneyMover::Dwolla::AccountClient).to receive(:new) { client }
+    allow(MoneyMover::Dwolla::ApplicationClient).to receive(:new) { client }
     allow(client).to receive(:get).with('/') { account_response }
     allow(client).to receive(:get).with("/accounts/#{account_token}/funding-sources") { funding_response }
   end

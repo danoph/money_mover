@@ -12,7 +12,7 @@ describe MoneyMover::Dwolla::MicroDepositInitiation do
   subject { described_class.new(funding_source_id: funding_source_id) }
 
   before do
-    allow(MoneyMover::Dwolla::AccountClient).to receive(:new) { ach_client }
+    allow(MoneyMover::Dwolla::ApplicationClient).to receive(:new) { ach_client }
   end
 
   context 'success' do

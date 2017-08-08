@@ -7,7 +7,7 @@ module MoneyMover
 
       attr_reader :resource_location, :attrs
 
-      def initialize(attrs = {}, client = AccountClient.new)
+      def initialize(attrs = {}, client = ApplicationClient.new)
         @attrs = attrs
         @id = attrs[:id]
         @resource_location = attrs[:resource_location]
@@ -18,7 +18,7 @@ module MoneyMover
       end
 
       def self.fetch
-        client = AccountClient.new
+        client = ApplicationClient.new
 
         response = client.get fetch_endpoint
 

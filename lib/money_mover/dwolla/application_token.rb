@@ -2,13 +2,7 @@ module MoneyMover
   module Dwolla
     class ApplicationToken < Token
       def access_token
-        new_token = request_new_token!
-        new_token.access_token
-      end
-
-      ## NOTE: application does not have refresh token, hit API again to get new access token
-      def refresh_token
-        access_token
+        @ach_config.account_token_provider.access_token
       end
 
       private

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MoneyMover::Dwolla::AccountClient do
+describe MoneyMover::Dwolla::ApplicationClient do
   let(:expected_response) { double 'expected response' }
   let(:server_request) { double 'server request' }
 
@@ -17,7 +17,7 @@ describe MoneyMover::Dwolla::AccountClient do
 
   before do
     allow(MoneyMover::Dwolla::ApiConnection).to receive(:new).with(token) { api_connection }
-    allow(MoneyMover::Dwolla::AccountToken).to receive(:new) { dwolla_token_provider }
+    allow(MoneyMover::Dwolla::ApplicationToken).to receive(:new) { dwolla_token_provider }
   end
 
   let(:url) { double 'url' }
@@ -60,7 +60,7 @@ describe MoneyMover::Dwolla::AccountClient do
   end
 end
 
-describe MoneyMover::Dwolla::AccountClient do
+describe MoneyMover::Dwolla::ApplicationClient do
   describe '#post' do
     let(:url) { '/customers' }
 

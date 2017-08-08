@@ -5,8 +5,6 @@ require 'money_mover/dwolla/api_server_response'
 # token stuff
 require 'money_mover/dwolla/client'
 require 'money_mover/dwolla/token'
-require 'money_mover/dwolla/account_client'
-require 'money_mover/dwolla/account_token'
 require 'money_mover/dwolla/application_client'
 require 'money_mover/dwolla/application_token'
 
