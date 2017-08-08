@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    money_mover (0.0.9)
+    money_mover (0.0.11)
       activemodel (>= 4.0, < 5.1)
       activesupport (>= 4.0, < 5.1)
       faraday (~> 0.9)
@@ -21,14 +21,14 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    builder (3.2.2)
+    builder (3.2.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
-    faraday (0.9.2)
+    faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
-    faraday_middleware (0.10.0)
-      faraday (>= 0.7.4, < 0.10)
+    faraday_middleware (0.12.2)
+      faraday (>= 0.7.4, < 1.0)
     hashdiff (0.3.0)
     i18n (0.7.0)
     json (1.8.3)
@@ -74,4 +74,4 @@ DEPENDENCIES
   webmock (~> 2.1)
 
 BUNDLED WITH
-   1.11.2
+   1.14.4

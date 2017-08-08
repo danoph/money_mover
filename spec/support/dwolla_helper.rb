@@ -84,7 +84,7 @@ class DwollaHelper
   end
 
   def api_url
-    "https://api-uat.dwolla.com"
+    "https://api-sandbox.dwolla.com"
   end
 
   def api_endpoint
@@ -226,7 +226,7 @@ class DwollaHelper
   # taken from ach_helper
 
   def get_token_url
-    "https://uat.dwolla.com/oauth/v2/token"
+    "https://sandbox.dwolla.com/oauth/v2/token"
   end
 
   def error_response(body_json = {})
@@ -267,7 +267,7 @@ class DwollaHelper
     req_headers = {
       'Accept'=>'application/vnd.dwolla.v1.hal+json',
       'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-      'User-Agent'=>'Faraday v0.9.2'
+      'User-Agent'=>"Faraday v#{Faraday::VERSION}"
     }
 
     stub_request(:post, get_token_url).with(body: req_body, headers: req_headers).
@@ -305,7 +305,7 @@ class DwollaHelper
       'Accept'=>'application/vnd.dwolla.v1.hal+json',
       'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
       'Authorization'=>"Bearer #{application_token}",
-      'User-Agent'=>'Faraday v0.9.2'
+      'User-Agent'=>"Faraday v#{Faraday::VERSION}"
     }
   end
 
