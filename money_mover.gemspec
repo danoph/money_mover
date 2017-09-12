@@ -3,7 +3,7 @@ $:.unshift(File.join(File.dirname(__FILE__), 'lib'))
 require 'money_mover/version'
 
 Gem::Specification.new do |s|
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.2.0'
   s.name        = 'money_mover'
   s.version     = MoneyMover::VERSION
   s.date        = '2016-07-21'
@@ -15,10 +15,10 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/danoph/money_mover'
   s.license     = 'MIT'
 
-  s.add_dependency 'faraday', '~> 0.9'
-  s.add_dependency 'faraday_middleware', '~> 0.9'
-  s.add_dependency 'activemodel', '>= 4.0', '< 5.1'
-  s.add_dependency 'activesupport', '>= 4.0', '< 5.1'
+  s.add_dependency 'faraday', '~> 0.13.1'
+  s.add_dependency 'faraday_middleware', '~> 0.12'
+  s.add_dependency 'activemodel', '>= 4.0'
+  s.add_dependency 'activesupport', '>= 4.0'
   s.add_dependency 'rack', '>= 1.6', '< 2.1'
 
   s.add_development_dependency 'rake', '~> 11.2'
